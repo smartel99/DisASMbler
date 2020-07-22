@@ -154,6 +154,18 @@
       <Project>{89895BD8-7556-B6E3-9E6F-A48B8A9BEB71}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ApplicationLayer.cpp" />
+    <ClCompile Include="src\ARM_DisassemblerExplorer.cpp" />
+    <ClCompile Include="src\Explorer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ApplicationLayer.h" />
+    <ClInclude Include="src\Explorer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
