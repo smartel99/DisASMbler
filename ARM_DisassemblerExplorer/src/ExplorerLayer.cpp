@@ -1,8 +1,4 @@
-﻿#include "Explorer.h"
-
-namespace Brigerad
-{
-
+﻿#include "ExplorerLayer.h"
 
 
 ExplorerLayer::ExplorerLayer()
@@ -25,7 +21,7 @@ void ExplorerLayer::OnDetach()
 
 
 
-void ExplorerLayer::OnUpdate(Timestep ts)
+void ExplorerLayer::OnUpdate(Brigerad::Timestep ts)
 {
 }
 
@@ -37,9 +33,6 @@ void ExplorerLayer::OnImGuiRender()
 
 
 
-void ExplorerLayer::OnEvent(Event& e)
+void ExplorerLayer::OnEvent(Brigerad::Event& e)
 {
 }
-
-
-}    // namespace Brigerad

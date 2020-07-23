@@ -100,6 +100,8 @@ void Application::Run()
                 }
             }
             m_imguiLayer->End();
+
+            CleanLayers();
         }
 
         // Do the per-frame window updating tasks.
@@ -148,10 +150,7 @@ void Application::PushLayer(Layer* layer)
 {
     BR_PROFILE_FUNCTION();
 
-    // Push the new layer to the stack.
-    m_layerStack.PushLayer(layer);
-    // Initialize the layer.
-    layer->OnAttach();
+    m_pushQueue.emplace_back(layer);
 }
 
 /**
@@ -166,8 +165,15 @@ void Application::PushOverlay(Layer* layer)
 
     // Push the new layer to the stack.
     m_layerStack.PushOverlay(layer);
-    // Initalize the layer.
+    // Initialize the layer.
     layer->OnAttach();
+}
+
+void Application::PopLayer(Layer* layer)
+{
+    BR_PROFILE_FUNCTION();
+
+    m_popQueue.emplace_back(layer);
 }
 
 void Application::Close()
@@ -224,6 +230,23 @@ bool Application::OnKeyPressed(KeyPressedEvent& e)
     {
         return false;
     }
+}
+
+void Application::CleanLayers()
+{
+    for (auto& it : m_popQueue)
+    {
+        it->OnDetach();
+        m_layerStack.PopLayer(it);
+    }
+    m_popQueue.clear();
+
+    for (auto& it : m_pushQueue)
+    {
+        it->OnAttach();
+        m_layerStack.PushLayer(it);
+    }
+    m_pushQueue.clear();
 }
 
 }    // namespace Brigerad

@@ -4,9 +4,12 @@ workspace "Brigerad"
 
     configurations
     {
-        "Debug",
-        "Release",
-        "Dist"
+        "DebugFr",
+        "ReleaseFr",
+        "DistFr",
+        "DebugEn",
+        "ReleaseEn",
+        "DistEn"
     }
 
     flags
@@ -134,23 +137,61 @@ project "Brigerad"
             "%{prj.name}/src/Brigerad/UI/Text.cpp"
         }
 
-    filter "configurations:Debug"
+    filter "configurations:DebugFr"
         defines 
         {
             "BR_DEBUG",
             "BR_ENABLE_ASSERTS",
-            "BR_PROFILE"
+            "BR_PROFILE",
+            "BUILD_FR"
         }
         runtime "Debug"
         symbols "on"
         
-    filter "configurations:Release"
-        defines "BR_RELEASE"
+    filter "configurations:ReleaseFr"
+        defines 
+        {
+            "BR_RELEASE",
+            "BUILD_FR"
+        }
         runtime "Release"
         optimize "on"
         
-    filter "configurations:Dist"
-        defines "BR_DIST"
+    filter "configurations:DistFr"
+        defines 
+        {
+            "BR_DIST",
+            "BUILD_FR"
+        }
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:DebugEn"
+        defines 
+        {
+            "BR_DEBUG",
+            "BR_ENABLE_ASSERTS",
+            "BR_PROFILE",
+            "BUILD_EN"
+        }
+        runtime "Debug"
+        symbols "on"
+        
+    filter "configurations:ReleaseEn"
+        defines 
+        {
+            "BR_RELEASE",
+            "BUILD_EN"
+        }
+        runtime "Release"
+        optimize "on"
+        
+    filter "configurations:DistEn"
+        defines 
+        {
+            "BR_DIST",
+            "BUILD_EN"
+        }
         runtime "Release"
         optimize "on"
 
@@ -174,6 +215,7 @@ project "ARM_DisassemblerExplorer"
     
         includedirs
         {
+            "%{prj.name}/src",
             "Brigerad/vendor/spdlog/include",
             "Brigerad/vendor",
             "Brigerad/src",
@@ -195,7 +237,15 @@ project "ARM_DisassemblerExplorer"
                 "Glad",
                 "ImGui",
                 "freetype",
-                "opengl32.lib"
+                "opengl32.lib",
+                "Shlwapi.lib",
+                "propsys.lib"
+            }
+            
+            excludes
+            {
+                "%{prj.name}/src/platform/Linux/**.h",
+                "%{prj.name}/src/platform/Linux/**.cpp",
             }
     
         filter "system:linux"
@@ -225,23 +275,69 @@ project "ARM_DisassemblerExplorer"
                 "freetype",
             }
 
+            excludes
+            {
+                "%{prj.name}/src/platform/Windows/**.h",
+                "%{prj.name}/src/platform/Windows/**.cpp",
+            }
+
             postbuildcommands{"cp -r assets ../bin/" .. outputdir .. "/%{prj.name}"}
             
-            filter "configurations:Debug"
+
+        filter "configurations:DebugFr"
             defines 
             {
                 "BR_DEBUG",
-                "BR_PROFILE"
+                "BR_ENABLE_ASSERTS",
+                "BR_PROFILE",
+                "BUILD_FR"
             }
             runtime "Debug"
-            symbols "On"
+            symbols "on"
             
-        filter "configurations:Release"
-            defines "BR_RELEASE"
+        filter "configurations:ReleaseFr"
+            defines 
+            {
+                "BR_RELEASE",
+                "BUILD_FR"
+            }
             runtime "Release"
-            optimize "On"
+            optimize "on"
             
-        filter "configurations:Dist"
-            defines "BR_DIST"
+        filter "configurations:DistFr"
+            defines 
+            {
+                "BR_DIST",
+                "BUILD_FR"
+            }
             runtime "Release"
-            optimize "On"
+            optimize "on"
+
+        filter "configurations:DebugEn"
+            defines 
+            {
+                "BR_DEBUG",
+                "BR_ENABLE_ASSERTS",
+                "BR_PROFILE",
+                "BUILD_EN"
+            }
+            runtime "Debug"
+            symbols "on"
+            
+        filter "configurations:ReleaseEn"
+            defines 
+            {
+                "BR_RELEASE",
+                "BUILD_EN"
+            }
+            runtime "Release"
+            optimize "on"
+            
+        filter "configurations:DistEn"
+            defines 
+            {
+                "BR_DIST",
+                "BUILD_EN"
+            }
+            runtime "Release"
+            optimize "on"

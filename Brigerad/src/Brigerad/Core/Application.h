@@ -30,6 +30,7 @@ public:
 
     void PushLayer(Layer* layer);
     void PushOverlay(Layer* layer);
+    void PopLayer(Layer* layer);
 
     void Close();
 
@@ -44,13 +45,17 @@ private:
     bool OnWindowResize(WindowResizeEvent& e);
     bool OnKeyPressed(KeyPressedEvent& e);
 
+    void CleanLayers();
+
 private:
     Scope<Window> m_window;
     ImGuiLayer*   m_imguiLayer;
 
-    bool       m_running   = true;
-    bool       m_minimized = false;
-    LayerStack m_layerStack;
+    bool                m_running   = true;
+    bool                m_minimized = false;
+    LayerStack          m_layerStack;
+    std::vector<Layer*> m_popQueue;
+    std::vector<Layer*> m_pushQueue;
 
     float m_lastFrameTime = 0.0f;
 

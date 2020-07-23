@@ -14,25 +14,24 @@
 #define _Explorer
 
 #include "Brigerad.h"
+#include "utils/File.h"
 
-namespace Brigerad
-{
-class ExplorerLayer : public Layer
+
+class ExplorerLayer : public Brigerad::Layer
 {
 public:
     ExplorerLayer();
-    virtual ~ExplorerLayer() = default;
+    virtual ~ExplorerLayer() override = default;
 
     virtual void OnAttach() override;
     virtual void OnDetach() override;
 
-    void         OnUpdate(Timestep ts) override;
+    void         OnUpdate(Brigerad::Timestep ts) override;
     virtual void OnImGuiRender() override;
-    void         OnEvent(Event& e) override;
+    void         OnEvent(Brigerad::Event& e) override;
 
 private:
 };
-}    // namespace Brigerad
 
 
 /* Have a wonderful day :) */

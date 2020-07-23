@@ -1,13 +1,9 @@
 ﻿#include "ApplicationLayer.h"
 
 #include "ImGui/imgui.h"
+#include "NewProjectLayer.h"
 
-#include <glm/gtc/type_ptr.hpp>
-
-namespace Brigerad
-{
-
-ApplicationLayer::ApplicationLayer() : Layer("Brigerad Editor"), m_camera(1280.0f / 720.0f)
+ApplicationLayer::ApplicationLayer() : Brigerad::Layer("ARM_DisassemblerExplorer")
 {
 }
 
@@ -21,7 +17,7 @@ void ApplicationLayer::OnDetach()
     BR_PROFILE_FUNCTION();
 }
 
-void ApplicationLayer::OnUpdate(Timestep ts)
+void ApplicationLayer::OnUpdate(Brigerad::Timestep ts)
 {
     BR_PROFILE_FUNCTION();
 }
@@ -79,11 +75,15 @@ void ApplicationLayer::OnImGuiRender()
 
     if (ImGui::BeginMenuBar())
     {
-        if (ImGui::BeginMenu("File"))
+        if (ImGui::BeginMenu(TEXT_APPLICATION_LAYER_FILE))
         {
-            if (ImGui::MenuItem("Exit"))
+            if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_NEW))
             {
-                Application::Get().Close();
+                Brigerad::Application::Get().PushLayer(new NewProjectLayer());
+            }
+            if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_EXIT))
+            {
+                Brigerad::Application::Get().Close();
             }
             ImGui::EndMenu();
         }
@@ -91,18 +91,10 @@ void ApplicationLayer::OnImGuiRender()
         ImGui::EndMenuBar();
     }
 
-
-
-    ImGui::Begin("Options");
-
-
-    ImGui::End();
-
     ImGui::End();
 }
 
-void ApplicationLayer::OnEvent(Event& e)
+void ApplicationLayer::OnEvent(Brigerad::Event& e)
 {
-    m_camera.OnEvent(e);
-}
+
 }    // namespace Brigerad
