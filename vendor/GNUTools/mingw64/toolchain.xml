@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Toolchain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ToolchainName>MinGW64</ToolchainName>
+    <ToolchainType>Windows</ToolchainType>
+	<ToolchainID>com.visualgdb.mingw64</ToolchainID>
+    <GNUTargetID>mingw64</GNUTargetID>
+	<BinaryDirectory>bin</BinaryDirectory>
+	<Prefix></Prefix>
+	<Make>mingw32-make.exe</Make>
+	<GCCVersion>9.1.0</GCCVersion>
+	<GDBVersion>8.3</GDBVersion>
+	<BinutilsVersion>2.30</BinutilsVersion>
+	<LIBCVersion>msvcrt</LIBCVersion>
+	<ArgumentEscapingMode>Normal</ArgumentEscapingMode>
+</Toolchain>

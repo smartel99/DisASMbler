@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<EmbeddedDebugPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PackageID>com.sysprogs.avr.avarice</PackageID>
+  <UserFriendlyName>AVR Avarice support package</UserFriendlyName>
+  <ExtensionDLL>AVaRICEDebugPackage.dll</ExtensionDLL>
+  <SupportedDebugMethods>
+    <DebugMethod>
+      <UserFriendlyName>JTAG (via AVaRICE)</UserFriendlyName>
+      <ID>avarice</ID>
+	  <RequireExplicitDisconnect>true</RequireExplicitDisconnect>
+	  <ExtensionClass>AVaRICEDebugPackage.AVaRICEDebugExtension</ExtensionClass>
+      <GDBServerApplication>$$SYS:TOOLCHAIN_BIN$$\avarice.exe</GDBServerApplication>
+      <GDBServerArguments>
+        <GNUStyle>true</GNUStyle>
+		<GNUArgumentPrefix>--file "$(TargetPath)"</GNUArgumentPrefix>
+		<Properties>
+		<PropertyGroups>
+            <PropertyGroup>
+			  <UniqueID>com.sysprogs.avr.avarice.</UniqueID>
+              <Properties>
+			  	<PropertyEntry xsi:type="Enumerated">
+                  <Name>Debug adapter</Name>
+                  <UniqueID>adapter</UniqueID>
+                  <Description>Specifies the JTAG hardware</Description>
+                  <SuggestionList>
+					<Suggestion>
+                      <UserFriendlyName>JTAG ICE mkI</UserFriendlyName>
+					  <InternalValue>-1</InternalValue>
+                    </Suggestion>
+					<Suggestion>
+                      <UserFriendlyName>JTAG ICE mkII</UserFriendlyName>
+					  <InternalValue>-2</InternalValue>
+                    </Suggestion>
+					<Suggestion>
+                      <UserFriendlyName>AVR Dragon</UserFriendlyName>
+					  <InternalValue>-g</InternalValue>
+                    </Suggestion>
+                  </SuggestionList>
+                  <DefaultEntryIndex>0</DefaultEntryIndex>
+                  <AllowFreeEntry>false</AllowFreeEntry>
+                </PropertyEntry>
+			  	<PropertyEntry xsi:type="Enumerated">
+                  <Name>Debug interface</Name>
+                  <UniqueID>iface</UniqueID>
+                  <Description>Specifies the JTAG hardware</Description>
+                  <SuggestionList>
+					<Suggestion>
+                      <UserFriendlyName>JTAG</UserFriendlyName>
+					  <InternalValue></InternalValue>
+                    </Suggestion>
+					<Suggestion>
+                      <UserFriendlyName>Debugwire</UserFriendlyName>
+					  <InternalValue>-w</InternalValue>
+                    </Suggestion>
+					<Suggestion>
+                      <UserFriendlyName>JTAG (Xmega)</UserFriendlyName>
+					  <InternalValue>-x</InternalValue>
+                    </Suggestion>
+					<Suggestion>
+                      <UserFriendlyName>PDI (Xmega)</UserFriendlyName>
+					  <InternalValue>-X</InternalValue>
+                    </Suggestion>
+                  </SuggestionList>
+                  <DefaultEntryIndex>0</DefaultEntryIndex>
+                  <AllowFreeEntry>false</AllowFreeEntry>
+                </PropertyEntry>
+			  	<PropertyEntry xsi:type="Enumerated">
+                  <Name>Debug bitrate</Name>
+                  <UniqueID>bitrate</UniqueID>
+                  <GNUPrefix>-B </GNUPrefix>
+                  <Description>Specifies the JTAG bitrate</Description>
+                  <SuggestionList>
+					<Suggestion><InternalValue>125K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>250K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>500K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>1000K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>2000K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>2500K</InternalValue></Suggestion>
+					<Suggestion><InternalValue>6400K</InternalValue></Suggestion>
+                  </SuggestionList>
+                  <DefaultEntryIndex>1</DefaultEntryIndex>
+                  <AllowFreeEntry>true</AllowFreeEntry>
+                </PropertyEntry>
+				<PropertyEntry xsi:type="Boolean">
+                  <Name>Erase chip</Name>
+                  <UniqueID>erase</UniqueID>
+                  <Description>Erases the chip contents</Description>
+                  <DefaultValue>true</DefaultValue>
+                  <ValueForTrue>--erase</ValueForTrue>
+                </PropertyEntry>
+				<PropertyEntry xsi:type="Boolean">
+                  <Name>Program chip</Name>
+                  <UniqueID>program</UniqueID>
+                  <Description>Programs the firmware into the chip</Description>
+                  <DefaultValue>true</DefaultValue>
+                  <ValueForTrue>--program</ValueForTrue>
+                </PropertyEntry>
+				<PropertyEntry xsi:type="Boolean">
+                  <Name>Verify programmed firmware</Name>
+                  <UniqueID>verify</UniqueID>
+                  <Description>Verifies the programmed firmware</Description>
+                  <DefaultValue>true</DefaultValue>
+                  <ValueForTrue>--verify</ValueForTrue>
+                </PropertyEntry>
+			  	<PropertyEntry xsi:type="Enumerated">
+                  <Name>Programmer device name</Name>
+                  <UniqueID>devname</UniqueID>
+                  <GNUPrefix>-j </GNUPrefix>
+                  <Description>Specifies the device where the programmer is connected</Description>
+                  <SuggestionList>
+					<Suggestion><InternalValue>usb</InternalValue></Suggestion>
+					<Suggestion><InternalValue>COM1</InternalValue></Suggestion>
+					<Suggestion><InternalValue>COM2</InternalValue></Suggestion>
+					<Suggestion><InternalValue>COM3</InternalValue></Suggestion>
+					<Suggestion><InternalValue>COM4</InternalValue></Suggestion>
+                  </SuggestionList>
+                  <DefaultEntryIndex>0</DefaultEntryIndex>
+                  <AllowFreeEntry>true</AllowFreeEntry>
+                </PropertyEntry>
+			  	<PropertyEntry xsi:type="String">
+                  <Name>Additional arguments</Name>
+                  <UniqueID>extraargs</UniqueID>
+                  <GNUPrefix></GNUPrefix>
+                  <Description>Extra command-line arguments to AVaRICE</Description>
+                </PropertyEntry>
+			  	<PropertyEntry xsi:type="Integral">
+                  <Name>GDB port</Name>
+                  <UniqueID>port</UniqueID>
+                  <DefaultValue>2000</DefaultValue>
+                  <MinimumValue>1</MinimumValue>
+                  <MaximumValue>65535</MaximumValue>
+                  <GNUPrefix>:</GNUPrefix>
+                  <Description>GDB port</Description>
+                </PropertyEntry>
+			  </Properties>
+              <CollapsedByDefault>false</CollapsedByDefault>
+            </PropertyGroup>
+          </PropertyGroups>
+        </Properties>
+      </GDBServerArguments>
+      <GDBServerDelay>500</GDBServerDelay>
+      <GDBStartupCommands>
+        <string>target remote :$$com.sysprogs.avr.avarice.port$$</string>
+      </GDBStartupCommands>
+      <UseContinueToStart>true</UseContinueToStart>
+      <SendCtrlCToGDBServer>false</SendCtrlCToGDBServer>
+      <AutoSelectScore>100</AutoSelectScore>
+    </DebugMethod>
+  </SupportedDebugMethods>
+</EmbeddedDebugPackage>

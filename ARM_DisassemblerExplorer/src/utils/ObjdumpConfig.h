@@ -31,7 +31,15 @@
 /* Exported types */
 
 using EndiannessEnum_t   = enum { Endianness_Auto = 0, Endianness_Big = 1, Endianness_Small = 2 };
-using ArchitectureEnum_t = enum { Architecture_Auto = 0, Architecture_Arm = 1 };
+using ArchitectureEnum_t = enum {
+    Architecture_Auto    = 0,
+    Architecture_Arm     = 1,
+    Architecture_Avr     = 2,
+    Architecture_x86     = 3,
+    Architecture_x86_64  = 4,
+    Architecture_PowerPc = 5,
+    Architecture_RiscV   = 6
+};
 using ArmRegisterNameSetEnum_t = enum {
     ARM_Auto           = 0,
     ARM_StdSet         = 1,
@@ -164,7 +172,7 @@ struct PowerPcDisassemberOptions
     bool         useSpe       = false;
 };
 
-struct MipdDisassemlerOptions
+struct MipsDisassemlerOptions
 {
     bool        useRawMnemonic  = false;
     bool        disassembleMsa  = false;
@@ -185,7 +193,7 @@ struct DisassemblerOptions
     ArmDisassemblerOptions     armDisassemblerOptions;
     Aarch64DisassemblerOptions aArch64DisassemblerOptions;
     PowerPcDisassemberOptions  powerPcDisassemblerOptions;
-    MipdDisassemlerOptions     mipsDisassemblerOptions;
+    MipsDisassemlerOptions     mipsDisassemblerOptions;
 };
 
 struct DwarfDisplayOptions
@@ -221,6 +229,7 @@ struct ObjdumpConfig
     bool                shouldSavePrj             = false;
     std::string         pathOfPrj                 = "";
     std::string         pathOfBin                 = "";
+    std::string         objdumpCmd                = "";
     bool                showArchiveHeader         = false;
     size_t              adjustVmaOffset           = 0;
     bool                demangle                  = false;

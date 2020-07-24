@@ -34,11 +34,17 @@ enum class FileTypes
     All
 };
 
+enum class FileMode
+{
+    Open = 0,
+    Save
+};
+
 
 class File
 {
 public:
-    static std::string OpenFile(FileTypes type = FileTypes::All);
+    static std::string OpenFile(FileTypes type = FileTypes::All, FileMode mode = FileMode::Open);
     static std::string GetCurrentPath();
 
     static const char* GetExtensionForFileType(FileTypes type)

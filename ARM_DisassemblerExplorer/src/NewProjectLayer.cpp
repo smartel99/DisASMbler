@@ -35,6 +35,8 @@ void NewProjectLayer::OnImGuiRender()
     ImGui::Begin(TEXT_NEW_PROJECT_LAYER_WINDOW_NAME, &m_isOpen);
 
     FileTypeHandler::Process(m_config);
+    ProjectSettingsHandler::Process(m_config);
+    ShowArchiveHeadersHandler::Process(m_config);
 
     ImGui::End();
 }
