@@ -47,9 +47,16 @@ IndentWidth: '4'
 Language: Cpp
 MaxEmptyLinesToKeep: '4'
 NamespaceIndentation: None
+
+PenaltyBreakBeforeFirstCallParameter: 1000
+PenaltyBreakTemplateDeclaration: 0
+PenaltyReturnTypeOnItsOwnLine: 0
+
 PointerAlignment: Left
+
 SortIncludes: 'false'
 SortUsingDeclarations: 'true'
+
 SpaceBeforeAssignmentOperators: 'true'
 SpaceBeforeCpp11BracedList: 'true'
 SpaceBeforeCtorInitializerColon: 'true'

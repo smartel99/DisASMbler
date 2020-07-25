@@ -8,6 +8,7 @@ extern Brigerad::Application* Brigerad::CreateApplication();
 
 int main(int argc, char** argv)
 {
+
     BR_PROFILE_BEGIN_SESSION("Init", "BrigeradProfile-Startup.json");
     Brigerad::Log::Init();
 
