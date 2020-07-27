@@ -24,6 +24,12 @@ project "ImGui"
 		cppdialect "C++17"
 		staticruntime "On"
 
+        disablewarnings
+        {
+            "6011",
+            "26495"
+        }
+
 	filter "system:linux"
 		pic "On"
 		systemversion "latest"

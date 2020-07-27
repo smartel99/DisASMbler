@@ -1,21 +1,31 @@
-﻿/**
+﻿/******************************************************************************
+ * @file StringUtils
+ * @author Samuel Martel
+ * @date 2020/07/27
+ * @brief
  ******************************************************************************
- * @addtogroup StringUtils
- * @{
- * @file    StringUtils
- * @author  Samuel Martel
- * @brief   Header for the StringUtils module.
+ * Copyright (C) 2020  Samuel Martel - Pascal-Emmanuel Lachance
  *
- * @date 7/23/2020 9:35:39 AM
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- ******************************************************************************
- */
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *****************************************************************************/
 #ifndef _StringUtils
 #define _StringUtils
 
 /*****************************************************************************/
 /* Includes */
 #include <string>
+#include <sstream>
 #include <vector>
 #include <array>
 

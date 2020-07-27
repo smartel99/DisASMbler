@@ -1,15 +1,24 @@
-﻿/**
+﻿/******************************************************************************
+ * @file ObjdumpConfig
+ * @author Samuel Martel
+ * @date 2020/07/27
+ * @brief
  ******************************************************************************
- * @addtogroup ObjdumpConfig
- * @{
- * @file    ObjdumpConfig
- * @author  Samuel Martel
- * @brief   Header for the ObjdumpConfig module.
+ * Copyright (C) 2020  Samuel Martel - Pascal-Emmanuel Lachance
  *
- * @date 7/23/2020 10:55:32 AM
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- ******************************************************************************
- */
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *****************************************************************************/
 #ifndef _ObjdumpConfig
 #define _ObjdumpConfig
 
@@ -231,13 +240,11 @@ struct ObjdumpConfig
     std::string         pathOfBin                 = "";
     std::string         objdumpCmd                = "";
     bool                showArchiveHeader         = false;
-    size_t              adjustVmaOffset           = 0;
+    int                 adjustVmaOffset           = 0;
     bool                demangle                  = false;
-    bool                deamnglingRecursionLimit  = true;
     bool                showDebuggingInfo         = false;
     bool                showDebuggingInfoForCtags = false;
     bool                disassemble               = false;
-    std::string         disassembleSymbol         = "";
     bool                disassembleAll            = false;
     bool                prefixAddresses           = false;
     EndiannessEnum_t    endianness                = Endianness_Auto;
@@ -245,7 +252,6 @@ struct ObjdumpConfig
     bool                showFileStartContext      = false;
     bool                showInfoFromHeader        = false;
     bool                showInfoFromSection       = false;
-    std::string         showInfoFromSectionName   = "";
     DisassemblerOptions disassemblerOptions;
     bool                showFormatSpecificInfo      = false;
     std::string         showFormatSpecificInfoParam = "";
