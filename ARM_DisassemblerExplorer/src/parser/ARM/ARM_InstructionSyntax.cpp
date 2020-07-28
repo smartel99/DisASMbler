@@ -11,6 +11,9 @@
 /*************************************************************************************************/
 #include "parser/ARM/ARM_InstructionSyntax.h"
 
+#include <iterator>
+#include <sstream>
+
 
 namespace Parser
 {
@@ -18,9 +21,14 @@ namespace Parser
 
 /*************************************************************************************************/
 /* Public member functions definitions --------------------------------------------------------- */
-const typename ARM_InstructionSyntax::MappedType&
+const typename ARM_InstructionSyntax::StringPair
 ARM_InstructionSyntax::FindOperand(std::size_t index)
-{
+{   
+    if (index == 0)
+    {
+        index = 1;
+    }
+
     for (const auto& token : m_instructionData)
     {
         /* Check to find a ',' character in the current key */
@@ -29,21 +37,25 @@ ARM_InstructionSyntax::FindOperand(std::size_t index)
             /* If there is, reduce the index and check if it is the desired one */
             if (--index == 0)
             {
-                return token;
+                return StringPair{token};
             }
         }
     }
     return GetEmptySyntaxPair();
 }
 
-std::size_t ARM_InstructionSyntax::FindNumberOfOperands(const std::string_view lineOfCode)
+std::size_t ARM_InstructionSyntax::FindNumberOfOperands(const std::string& lineOfCode)
 {
     if (lineOfCode.empty() == true)
     {
         return 0;
     }
 
+    /** @todo */
+    std::stringstream str{lineOfCode};
+    using StringIteratorType = std::istream_iterator<std::string>;
 
+    return std::distance(StringIteratorType{str}, StringIteratorType{});
 }
 
 /*************************************************************************************************/

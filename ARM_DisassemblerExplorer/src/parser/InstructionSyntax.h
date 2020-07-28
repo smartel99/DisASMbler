@@ -30,7 +30,7 @@ protected:
     std::map<std::string, std::string> m_instructionData;
 
 public:
-    using MappedType = std::pair<std::string, std::string>;
+    using StringPair = std::pair<std::string, std::string>;
 
     virtual ~InstructionSyntax() = 0;
 
@@ -43,7 +43,7 @@ private:
 
 /*************************************************************************************************/
 /* Public functions declarations --------------------------------------------------------------- */
-const InstructionSyntax::MappedType& GetEmptySyntaxPair();
+const InstructionSyntax::StringPair& GetEmptySyntaxPair();
 
 
 /*************************************************************************************************/

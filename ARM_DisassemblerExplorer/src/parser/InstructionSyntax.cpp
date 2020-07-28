@@ -20,7 +20,7 @@ namespace Parser
 
 /*************************************************************************************************/
 /* Private static variables -------------------------------------------------------------------- */
-const InstructionSyntax::MappedType p_emptyMap{"",""};
+const InstructionSyntax::StringPair p_emptyMap{"",""};
 
 
 /*************************************************************************************************/
@@ -29,7 +29,7 @@ InstructionSyntax::~InstructionSyntax() = default;
 
 [[nodiscard]] std::string InstructionSyntax::GetToken(const std::string_view searchedToken) const
 {
-    for (const MappedType& token : m_instructionData)
+    for (const StringPair& token : m_instructionData)
     {
         /* Search the map's keys for the token */
         if (searchedToken == token.first)
@@ -45,7 +45,7 @@ InstructionSyntax::~InstructionSyntax() = default;
 
 /*************************************************************************************************/
 /* Non-member functions public definitions ----------------------------------------------------- */
-const InstructionSyntax::MappedType& GetEmptySyntaxPair()
+const InstructionSyntax::StringPair& GetEmptySyntaxPair()
 {
     return p_emptyMap;
 }
