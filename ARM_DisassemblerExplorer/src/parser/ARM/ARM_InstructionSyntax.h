@@ -37,7 +37,7 @@ public:
     ~ARM_InstructionSyntax() = default;
 
     const MappedType& FindOperand(std::size_t index);
-
+    static std::size_t FindNumberOfOperands(const std::string_view lineOfCode);
 
 private:
     void SplitInTokens(const std::string_view instructionSyntax) override;

@@ -21,7 +21,7 @@ namespace Parser
 class Instruction
 {
 protected:
-    InstructionSyntax* m_syntax;
+    InstructionSyntax* m_syntax = nullptr;
 
 public:
     virtual ~Instruction() = 0 ;

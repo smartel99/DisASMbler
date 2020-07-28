@@ -21,7 +21,7 @@ namespace Parser
 const typename ARM_InstructionSyntax::MappedType&
 ARM_InstructionSyntax::FindOperand(std::size_t index)
 {
-    for (const MappedType& token : m_instructionData)
+    for (const auto& token : m_instructionData)
     {
         /* Check to find a ',' character in the current key */
         if (token.first.find(',') != std::string::npos)
@@ -36,6 +36,15 @@ ARM_InstructionSyntax::FindOperand(std::size_t index)
     return GetEmptySyntaxPair();
 }
 
+std::size_t ARM_InstructionSyntax::FindNumberOfOperands(const std::string_view lineOfCode)
+{
+    if (lineOfCode.empty() == true)
+    {
+        return 0;
+    }
+
+
+}
 
 /*************************************************************************************************/
 /* Private member functions definitions -------------------------------------------------------- */
