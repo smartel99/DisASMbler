@@ -41,7 +41,7 @@ constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_SHOULD_SAVE_HINT =
   "Cochez cette case pour sauvegarder le projet dans un fichier";
 constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_PRJ_PATH_HINT =
   "Le fichier dans lequel le projet doit être sauvegardé. Cette option n'est pas disponible si "
-  "l'option Sauvergarder n'est pas activée";
+  "l'option Sauvegarder n'est pas activée";
 constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_FILE_PATH_HINT = "Le fichier à désassembler";
 
 /* Have a wonderful day :) */
