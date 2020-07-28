@@ -9,6 +9,7 @@
  * @brief       The STR instruction is a single data transfer instruction used to store a single
  *              byte or a word of data.
  */
+#pragma once
 /*************************************************************************************************/
 /* Includes ------------------------------------------------------------------------------------ */
 #include "parser/ARM/ARM_Instruction.h"
@@ -44,5 +45,3 @@ public:
  * @}
  */
 /* ----- END OF FILE ----- */
-
-#pragma once
