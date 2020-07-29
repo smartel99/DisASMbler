@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
  * @file English
  * @author Samuel Martel
  * @date 2020/07/27
@@ -27,17 +27,17 @@
 /************************************************************************/
 /* SECTION: NewProjectLayer                                             */
 /************************************************************************/
-constexpr char* TEXT_NEW_PROJECT_LAYER_WINDOW_NAME = "New Project";
+constexpr const char* TEXT_NEW_PROJECT_LAYER_WINDOW_NAME = "New Project";
 
 /************************************************************************/
 /* SECTION: ApplicationLayer                                            */
 /************************************************************************/
-constexpr char* TEXT_APPLICATION_LAYER_FILE  = "File";
-constexpr char* TEXT_APPLICATION_LAYER_NEW   = "New";
-constexpr char* TEXT_APPLICATION_LAYER_EXIT  = "Exit";
-constexpr char* TEXT_APPLICATION_LAYER_HELP  = "Help";
-constexpr char* TEXT_APPLICATION_LAYER_ABOUT = "About";
-constexpr char* TEXT_APPLICATION_LAYER_ABOUT_TEXT =
+constexpr const char* TEXT_APPLICATION_LAYER_FILE  = "File";
+constexpr const char* TEXT_APPLICATION_LAYER_NEW   = "New";
+constexpr const char* TEXT_APPLICATION_LAYER_EXIT  = "Exit";
+constexpr const char* TEXT_APPLICATION_LAYER_HELP  = "Help";
+constexpr const char* TEXT_APPLICATION_LAYER_ABOUT = "About";
+constexpr const char* TEXT_APPLICATION_LAYER_ABOUT_TEXT =
   R"(Disassembly Explorer Copyright (C) 2020 
 Samuel Martel - Pascal-Emmanuel Lachance
 
@@ -48,22 +48,22 @@ under the GPLv3)";
 /************************************************************************/
 /* SECTION: ObjdumpConfigUI                                             */
 /************************************************************************/
-
 // File Type
-constexpr char* TEXT_HINT_FILE_TYPE_HANDLER        = "The type of file that is to be disassembled";
-constexpr char* TEXT_FILE_TYPE_HANDLER_TYPE_ALL    = "Automatic";
-constexpr char* TEXT_FILE_TYPE_HANDLER_TYPE_ELF    = "Elf";
-constexpr char* TEXT_FILE_TYPE_HANDLER_INPUT_LABEL = "File Type";
+constexpr const char* TEXT_HINT_FILE_TYPE_HANDLER        = "The type of file that is to be disassembled";
+constexpr const char* TEXT_FILE_TYPE_HANDLER_TYPE_ALL    = "Automatic";
+constexpr const char* TEXT_FILE_TYPE_HANDLER_TYPE_ELF    = "Elf";
+constexpr const char* TEXT_FILE_TYPE_HANDLER_INPUT_LABEL = "File Type";
 
 // Project Settings
-constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_SHOULD_SAVE_HINT =
+constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_SHOULD_SAVE_HINT =
   "Check this box to save the project into a file";
-constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_PRJ_PATH_HINT =
+constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_PRJ_PATH_HINT =
   "The path where the project should be saved. This option is disabled if the Should Save option "
   "is not enabled";
-constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_ARCH_HINT =
+constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_FILE_PATH_HINT =
+constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_ARCH_HINT =
   "Forces Objdump to disassemble for a specific architecture";
-constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_FILE_PATH_HINT =
+constexpr const char* TEXT_PROJECT_SETTINGS_HANDLER_FILE_PATH_HINT =
   "The path to the file to disassemble";
 constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_SHOULD_SAVE_LABEL     = "Save Project";
 constexpr char* TEXT_PROJECT_SETTINGS_HANDLER_PRJ_PATH_LABEL        = "Project Path: %s";
