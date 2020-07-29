@@ -469,6 +469,8 @@ void Renderer2D::DrawQuad(const glm::vec2&         pos,
                           const glm::vec2&         textScale,
                           const glm::vec4&         tint)
 {
+ // Should this not be :
+ // DrawQuad({pos.x, pos.y, 0}, size, texture, textScale, tint);
     DrawQuad({pos.x, pos.y}, size, texture, textScale, tint);
 }
 

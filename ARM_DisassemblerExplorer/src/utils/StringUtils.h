@@ -15,9 +15,11 @@
 
 /*****************************************************************************/
 /* Includes */
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <array>
+#include <string>
+#include <string_view>
+#include <vector>
 
 
 /*****************************************************************************/
@@ -90,6 +92,26 @@ public:
     static std::string MakeUniqueIdString(const std::string& label, const void* uniqueId)
     {
         return label + "##" + ToString(uniqueId);
+    }
+
+    static std::string RemoveExtraWhitespaces(const std::string_view inputString)
+    {
+        /* Copy each character from the input string into the output string, unless it's
+         * repeating space */
+        /* From : https://stackoverflow.com/a/35302029 */
+        std::string outputString;
+
+        /* clang-format off */
+        std::unique_copy(inputString.begin(),
+                         inputString.end(),
+                         std::back_insert_iterator<std::string>(outputString),
+                         [](char a, char b)
+                         {
+                            return std::isspace(a) && std::isspace(b);
+                         });
+        /* clang-format on */
+
+        return outputString;
     }
 };
 

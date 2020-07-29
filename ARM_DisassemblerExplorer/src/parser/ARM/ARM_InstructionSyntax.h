@@ -1,14 +1,27 @@
-/**
+/**************************************************************************************************
  * @addtogroup  Parser
- * @{
- * @file        ARM_InstructionSyntax.h
+ * {
+ * @file        ARM_InstructionSyntax
  * @author      Pascal-Emmanuel Lachance
- * @p           https://www.github.com/Raesangur
  * @date        2020/07/24  -  17:31
- *
  * @brief       Base of the ARM instruction set parsing engine.
  *              Each ARM instruction should instantiate an object of this class.
- */
+ **************************************************************************************************
+ *   Copyright (C) 2020  Samuel Martel - Pascal-Emmanuel Lachance
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *************************************************************************************************/
 #pragma once
 /*************************************************************************************************/
 /* Includes ------------------------------------------------------------------------------------ */
@@ -37,10 +50,13 @@ public:
     ~ARM_InstructionSyntax() = default;
 
     const StringPair FindOperand(std::size_t index);
-    static std::size_t FindNumberOfOperands(const std::string& lineOfCode);
+
+    static std::uint32_t FindNumberOfOperands(const std::string& lineOfCode);
+
 
 private:
     void SplitInTokens(const std::string_view instructionSyntax) override;
+    static bool IsSpecialCharacter(char character);
 };
 
 

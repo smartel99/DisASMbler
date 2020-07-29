@@ -64,7 +64,7 @@ void InitFont()
     for (const auto& [fontName, font] : arialFonts)
     {
         if (FT_New_Memory_Face(
-              s_uiTextData.FontLib, (uint8_t*)font.second, font.first, 0, &currentFont))
+              s_uiTextData.FontLib, (uint8_t*)font.second, uint32_t(font.first), 0, &currentFont))
         {
             BR_ERROR("Could not load font!");
         }
@@ -154,7 +154,7 @@ void LoadFont(const char* fontName, const FT_Face& font)
             glyphData[i] = (uint32_t)data.buffer[i];
         }
 
-        texture->SetData(glyphData, size * sizeof(uint32_t));
+        texture->SetData(glyphData, uint32_t(size * sizeof(uint32_t)));
         delete[] glyphData;
 
         // Now store character for later use.
