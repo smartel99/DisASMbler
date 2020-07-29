@@ -1,6 +1,6 @@
 workspace "Brigerad"
     architecture "x64"
-    startproject "ARM_DisassemblerExplorer"
+    startproject "DisassemblerExplorer"
 
     configurations
     {
@@ -205,8 +205,8 @@ project "Brigerad"
         optimize "on"
 
 
-project "ARM_DisassemblerExplorer"
-        location "ARM_DisassemblerExplorer"
+project "DisassemblerExplorer"
+        location "DisassemblerExplorer"
         kind "ConsoleApp"
 
         language "C++"

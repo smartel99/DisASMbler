@@ -47,7 +47,9 @@ using ArchitectureEnum_t = enum {
     Architecture_x86     = 3,
     Architecture_x86_64  = 4,
     Architecture_PowerPc = 5,
-    Architecture_RiscV   = 6
+    Architecture_RiscV   = 6,
+    Architecture_Aarch64 = 7,
+    Architecture_Mips    = 8
 };
 using ArmRegisterNameSetEnum_t = enum {
     ARM_Auto           = 0,
@@ -159,7 +161,7 @@ struct Aarch64DisassemblerOptions
     bool disassembleIntoGenericInstruction = false;
 };
 
-struct x86DisassemblerOptions
+struct X86DisassemblerOptions
 {
     x86DisassemblyArchitectureEnum_t architecture  = x86Arch_Auto;
     x86SyntaxModeEnum_t              syntax        = x86Syntax_Auto;
@@ -187,12 +189,12 @@ struct MipsDisassemlerOptions
     bool        disassembleMsa  = false;
     bool        disassembleVirt = false;
     bool        disassembleXpa  = false;
-    std::string gprNamesAbi     = "";
-    std::string fprNamesAbi     = "";
-    std::string cp0ArchName     = "";
-    std::string hwrArchName     = "";
-    std::string regNamesAbi     = "";
-    std::string regArchName     = "";
+    std::string gprNamesAbi     = std::string(128, '\0');
+    std::string fprNamesAbi     = std::string(128, '\0');
+    std::string cp0ArchName     = std::string(128, '\0');
+    std::string hwrArchName     = std::string(128, '\0');
+    std::string regNamesAbi     = std::string(128, '\0');
+    std::string regArchName     = std::string(128, '\0');
 };
 
 struct DisassemblerOptions
@@ -201,6 +203,7 @@ struct DisassemblerOptions
     ArcDisassemblerOptions     arcDisassemblerOptions;
     ArmDisassemblerOptions     armDisassemblerOptions;
     Aarch64DisassemblerOptions aArch64DisassemblerOptions;
+    X86DisassemblerOptions     x86DisassemblerOptions;
     PowerPcDisassemberOptions  powerPcDisassemblerOptions;
     MipsDisassemlerOptions     mipsDisassemblerOptions;
 };
@@ -254,20 +257,20 @@ struct ObjdumpConfig
     bool                showInfoFromSection       = false;
     DisassemblerOptions disassemblerOptions;
     bool                showFormatSpecificInfo      = false;
-    std::string         showFormatSpecificInfoParam = "";
+    std::string         showFormatSpecificInfoParam = std::string(128, '\0');
     bool                showRelocEntries            = false;
     bool                showDynamicRelocEntries     = false;
     bool                showAllContent              = false;
     bool                showSource                  = false;
     bool                showPrefixedSource          = false;
-    std::string         sourcePrefix                = "";
-    std::string         pathPrefix                  = "";
+    std::string         sourcePrefix                = std::string(128, '\0');
+    std::string         pathPrefix                  = std::string(128, '\0');
     size_t              pathStripLevel              = 0;
     bool                showRawInstruction          = true;
     bool                visualizeJumps              = false;
     DwarfDisplayOptions dwarfOptions;
-    std::string         ctfSectionName               = "";
-    std::string         ctfParentSectionName         = "";
+    std::string         ctfSectionName               = std::string(128, '\0');
+    std::string         ctfParentSectionName         = std::string(128, '\0');
     bool                showFullSectionContent       = false;
     size_t              startAddress                 = 0;
     size_t              stopAddress                  = 0;

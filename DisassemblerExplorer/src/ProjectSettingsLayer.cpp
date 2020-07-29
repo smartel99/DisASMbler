@@ -58,6 +58,7 @@ void ProjectSettingsLayer::OnImGuiRender()
 
     FileTypeHandler::Process(m_config);
     ProjectSettingsHandler::Process(m_config);
+    DisassemblerOptionHandler::Process(m_config);
     ShowArchiveHeadersHandler::Process(m_config);
     AdjustVmaOffsetHandler::Process(m_config);
     DemangleHandler::Process(m_config);
@@ -83,6 +84,7 @@ void ProjectSettingsLayer::OnImGuiRender()
     ShowFileOffsetHandler::ToString(ss);
     ShowFileStartContextHandler::ToString(ss);
     ShowInfoFromHeaderHandler::ToString(ss);
+    DisassemblerOptionHandler::ToString(ss);
 
     BR_INFO("ObjDump Command: {}", ss.str().c_str());
 }
