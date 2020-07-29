@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<EmbeddedProjectSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Name>LEDBlink</Name>
+	<Description>This is a very basic sample project - a classical blinking LED example.</Description>
+	<ConfigurableProperties>
+	<PropertyGroups>
+	<PropertyGroup>
+	  <Properties>
+		<PropertyEntry xsi:type="Enumerated">
+		  <Name>LED Port Group</Name>
+		  <UniqueID>com.sysprogs.avr.ledblink.LEDPORT</UniqueID>
+		  <Description>Specifies the port group where the LED is connected (e.g. PORTB for PORTB0)</Description>
+		  <SuggestionList>
+			<Suggestion><UserFriendlyName>PORTA</UserFriendlyName><InternalValue>A</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTB</UserFriendlyName><InternalValue>B</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTC</UserFriendlyName><InternalValue>C</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTD</UserFriendlyName><InternalValue>D</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTE</UserFriendlyName><InternalValue>E</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTF</UserFriendlyName><InternalValue>F</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTG</UserFriendlyName><InternalValue>H</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTH</UserFriendlyName><InternalValue>I</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTI</UserFriendlyName><InternalValue>I</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTJ</UserFriendlyName><InternalValue>J</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTK</UserFriendlyName><InternalValue>K</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTL</UserFriendlyName><InternalValue>L</InternalValue></Suggestion>
+			<Suggestion><UserFriendlyName>PORTM</UserFriendlyName><InternalValue>M</InternalValue></Suggestion>
+		  </SuggestionList>
+		  <DefaultEntryIndex>1</DefaultEntryIndex>
+		  <AllowFreeEntry>false</AllowFreeEntry>
+		</PropertyEntry>
+		<PropertyEntry xsi:type="Integral">
+		  <Name>LED Port Number</Name>
+		  <UniqueID>com.sysprogs.avr.ledblink.LEDBIT</UniqueID>
+		  <Description>Specifies the port number of the LED port (e.g. 0 for PORTB0)</Description>
+		  <DefaultValue>0</DefaultValue>
+		  <MaxValue>7</MaxValue>
+		</PropertyEntry>
+		<PropertyEntry xsi:type="Integral">
+		  <Name>Delay cycles</Name>
+		  <UniqueID>com.sysprogs.avr.ledblink.DELAYCYCLES</UniqueID>
+		  <Description>Specifies the delay (in empty loop cycles) between LED toggling events</Description>
+		  <DefaultValue>50000</DefaultValue>
+		</PropertyEntry>
+	  </Properties>
+	  <CollapsedByDefault>false</CollapsedByDefault>
+	</PropertyGroup>
+	</PropertyGroups>
+	</ConfigurableProperties>
+
+</EmbeddedProjectSample>

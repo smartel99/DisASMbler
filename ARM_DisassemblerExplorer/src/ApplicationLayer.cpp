@@ -1,7 +1,29 @@
-﻿#include "ApplicationLayer.h"
+﻿/******************************************************************************
+ * @file ApplicationLayer
+ * @author Samuel Martel
+ * @date 2020/07/27
+ * @brief
+ ******************************************************************************
+ * Copyright (C) 2020  Samuel Martel - Pascal-Emmanuel Lachance
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *****************************************************************************/
+
+#include "ApplicationLayer.h"
 
 #include "ImGui/imgui.h"
-#include "NewProjectLayer.h"
+#include "ProjectSettingsLayer.h"
 
 ApplicationLayer::ApplicationLayer() : Brigerad::Layer("ARM_DisassemblerExplorer")
 {
@@ -30,6 +52,7 @@ void ApplicationLayer::OnImGuiRender()
     static bool               opt_fullscreen_persistant = true;
     bool                      opt_fullscreen            = opt_fullscreen_persistant;
     static ImGuiDockNodeFlags dockspace_flags           = ImGuiDockNodeFlags_None;
+    static bool               renderAbout               = false;
 
     // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
     // because it would be confusing to have two docking targets within each others.
@@ -79,11 +102,19 @@ void ApplicationLayer::OnImGuiRender()
         {
             if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_NEW))
             {
-                Brigerad::Application::Get().PushLayer(new NewProjectLayer());
+                Brigerad::Application::Get().PushLayer(new ProjectSettingsLayer());
             }
             if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_EXIT))
             {
                 Brigerad::Application::Get().Close();
+            }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(TEXT_APPLICATION_LAYER_HELP))
+        {
+            if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_ABOUT))
+            {
+                renderAbout = true;
             }
             ImGui::EndMenu();
         }
@@ -92,6 +123,13 @@ void ApplicationLayer::OnImGuiRender()
     }
 
     ImGui::End();
+
+    if (renderAbout)
+    {
+        ImGui::Begin(TEXT_APPLICATION_LAYER_ABOUT, &renderAbout);
+        ImGui::Text(TEXT_APPLICATION_LAYER_ABOUT_TEXT);
+        ImGui::End();
+    }
 }
 
 void ApplicationLayer::OnEvent(Brigerad::Event& e)

@@ -2,19 +2,23 @@
 
 #include "platform/Windows/CDialogEventHandler.h"
 
+#include <array>
+
 std::map<FileTypes, std::string> File::m_fileTypeExtensions = {{FileTypes::Elf, "*.elf"},
                                                                {FileTypes::All, "*.*"}};
+
+static std::array<CLSID, 2> fileDialogMode = {CLSID_FileOpenDialog, CLSID_FileSaveDialog};
 
 static std::wstring StringToWString(const std::string& str);
 static std::string  WStringToString(const std::wstring& str);
 
-std::string File::OpenFile(FileTypes type)
+std::string File::OpenFile(FileTypes type, FileMode mode)
 {
     std::string path = "";
     // Co-create the File Open Dialog object.
     IFileDialog* pfd = nullptr;
-    HRESULT      hr =
-      CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    HRESULT      hr  = CoCreateInstance(
+      fileDialogMode[size_t(mode)], nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
 
     if (SUCCEEDED(hr))
     {

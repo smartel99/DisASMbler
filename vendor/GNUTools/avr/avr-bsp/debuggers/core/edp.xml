@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<EmbeddedDebugPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PackageID>com.sysprogs.avr.core-dmsp</PackageID>
+  <UserFriendlyName>Built-in AVR debug methods</UserFriendlyName>
+  <SupportedDebugMethods>
+    <DebugMethod>
+      <UserFriendlyName>GDB Simulator</UserFriendlyName>
+      <ID>gdbsim</ID>
+      <GDBServerDelay>0</GDBServerDelay>
+      <GDBStartupCommands>
+        <string>target sim</string>
+        <string>load</string>
+      </GDBStartupCommands>
+      <UseContinueToStart>false</UseContinueToStart>
+      <SendCtrlCToGDBServer>false</SendCtrlCToGDBServer>
+      <AutoSelectScore>0</AutoSelectScore>
+    </DebugMethod>
+  </SupportedDebugMethods>
+</EmbeddedDebugPackage>

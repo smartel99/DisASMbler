@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Toolchain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ToolchainName>RISC-V</ToolchainName>
+	<GNUTargetID>riscv64-unknown-elf</GNUTargetID>
+	<ToolchainID>com.visualgdb.risc-v</ToolchainID>
+	<BinaryDirectory>bin</BinaryDirectory>
+	<Prefix>riscv64-unknown-elf-</Prefix>
+	<Make>make.exe</Make>
+	<BuiltInBSPs>
+		<string>risc-v-bsp</string>
+	</BuiltInBSPs>
+	<GCCVersion>10.1.0</GCCVersion>
+	<GDBVersion>9.1</GDBVersion>
+	<Revision>1</Revision>
+	<BinutilsVersion>2.34</BinutilsVersion>
+	<LIBCVersion>3.2.0</LIBCVersion>
+</Toolchain>
