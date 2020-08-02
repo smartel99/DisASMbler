@@ -1,11 +1,11 @@
 ﻿#include "ExplorerLayer.h"
 
 
-ExplorerLayer::ExplorerLayer()
+#include <ImGui/imgui.h>
+
+ExplorerLayer::ExplorerLayer(const ObjdumpConfig& config, const std::string& content)
+: m_config(config), m_content(content)
 {
-    // Make the user pick a .elf file.
-    // Disassemble the file with objdump and the settings given by the user.
-    // Parse the disassembly, decode instructions, color-code them, etc
 }
 
 
@@ -23,12 +23,19 @@ void ExplorerLayer::OnDetach()
 
 void ExplorerLayer::OnUpdate(Brigerad::Timestep ts)
 {
+    if (m_open == false)
+    {
+        Brigerad::Application::Get().PopLayer(this);
+    }
 }
 
 
 
 void ExplorerLayer::OnImGuiRender()
 {
+    ImGui::Begin("Placeholder name", &m_open);
+    ImGui::TextUnformatted(m_content.c_str());
+    ImGui::End();
 }
 
 

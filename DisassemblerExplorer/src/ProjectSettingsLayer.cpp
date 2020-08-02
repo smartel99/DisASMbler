@@ -26,8 +26,14 @@
 #include "text/Text.h"
 #include "ImGui/imgui.h"
 #include "utils/ObjdumpConfigUI.h"
+#include "ProjectCreationLayer.h"
 
-ProjectSettingsLayer::ProjectSettingsLayer()
+ProjectSettingsLayer::ProjectSettingsLayer() : m_editingProject(nullptr), m_config()
+{
+}
+
+ProjectSettingsLayer::ProjectSettingsLayer(ExplorerLayer* prj, const ObjdumpConfig& config)
+: m_editingProject(prj), m_config(config)
 {
 }
 
@@ -69,11 +75,50 @@ void ProjectSettingsLayer::OnImGuiRender()
     ShowFileOffsetHandler::Process(m_config);
     ShowFileStartContextHandler::Process(m_config);
     ShowInfoFromHeaderHandler::Process(m_config);
+    ShowRelocEntriesHandler::Process(m_config);
+    ShowSourceHandler::Process(m_config);
+    PathHandler::Process(m_config);
+    ShowRawInstructionHandler::Process(m_config);
+    VisualizeJumpsHandler::Process(m_config);
+    DwarfOptionsHandler::Process(m_config);
+    CtfSectionHandler::Process(m_config);
+    ShowFullSectionContentHandler::Process(m_config);
+    AddressRangeHandler::Process(m_config);
+    ShowSymbolTableAsSymsHandler::Process(m_config);
+    ExtraFormatOptionsHandler::Process(m_config);
+    ShowAllHeadersHandler::Process(m_config);
+    DisassembleZerosHandler::Process(m_config);
+
+    ImGui::Separator();
+    if (ImGui::Button(TEXT_BUTTON_LABEL_CONFIRM))
+    {
+        if (m_editingProject != nullptr)
+        {
+            Brigerad::Application::Get().PopLayer(m_editingProject);
+        }
+        Brigerad::Application::Get().PushLayer(
+          new ProjectCreationLayer(m_config, MakeObjdumpCmd()));
+        Brigerad::Application::Get().PopLayer(this);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Button(TEXT_BUTTON_LABEL_CANCEL))
+    {
+        Brigerad::Application::Get().PopLayer(this);
+    }
 
     ImGui::End();
+}
 
+
+void ProjectSettingsLayer::OnEvent(Brigerad::Event& e)
+{
+}
+
+std::string ProjectSettingsLayer::MakeObjdumpCmd()
+{
     std::stringstream ss;
-    ss << "objdump";
     ShowArchiveHeadersHandler::ToString(ss);
     AdjustVmaOffsetHandler::ToString(ss);
     DemangleHandler::ToString(ss);
@@ -85,11 +130,19 @@ void ProjectSettingsLayer::OnImGuiRender()
     ShowFileStartContextHandler::ToString(ss);
     ShowInfoFromHeaderHandler::ToString(ss);
     DisassemblerOptionHandler::ToString(ss);
+    ShowRelocEntriesHandler::ToString(ss);
+    ShowSourceHandler::ToString(ss);
+    PathHandler::ToString(ss);
+    ShowRawInstructionHandler::ToString(ss);
+    VisualizeJumpsHandler::ToString(ss);
+    DwarfOptionsHandler::ToString(ss);
+    CtfSectionHandler::ToString(ss);
+    ShowFullSectionContentHandler::ToString(ss);
+    AddressRangeHandler::ToString(ss);
+    ShowSymbolTableAsSymsHandler::ToString(ss);
+    ExtraFormatOptionsHandler::ToString(ss);
+    ShowAllHeadersHandler::ToString(ss);
+    DisassembleZerosHandler::ToString(ss);
 
-    BR_INFO("ObjDump Command: {}", ss.str().c_str());
-}
-
-
-void ProjectSettingsLayer::OnEvent(Brigerad::Event& e)
-{
+    return ss.str();
 }

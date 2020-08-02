@@ -395,6 +395,278 @@ private:
     static std::string m_regArchName;
 };
 
+class ShowFormatSpecificInfoHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_hint;
+    static const char* m_paramHint;
+    static const char* m_flag;
+    static const char* m_paramFlag;
+
+    static bool        m_active;
+    static std::string m_param;
+};
+
+class ShowRelocEntriesHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_relocHint;
+    static const char* m_dynamicRelocHint;
+    static const char* m_relocFlag;
+    static const char* m_dynamicRelocFlag;
+
+    static bool m_reloc;
+    static bool m_dynamicReloc;
+};
+
+class ShowAllContentHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_hint;
+    static const char* m_flag;
+    static const char* m_label;
+    static bool        m_active;
+};
+
+class ShowSourceHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_showSourceLabel;
+    static const char* m_prefixLabel;
+
+    static const char* m_showSourceHint;
+    static const char* m_prefixHint;
+
+    static const char* m_showSourceFlag;
+    static const char* m_prefixFlag;
+
+    static bool        m_showSource;
+    static std::string m_prefix;
+};
+
+class PathHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_prefixLabel;
+    static const char* m_stripLabel;
+    static const char* m_prefixHint;
+    static const char* m_stripHint;
+    static const char* m_prefixFlag;
+    static const char* m_stripFlag;
+
+    static std::string m_prefix;
+    static int         m_strip;
+    static bool        m_showSource;
+};
+
+class ShowRawInstructionHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_label;
+    static const char* m_widthLabel;
+    static const char* m_hint;
+    static const char* m_widthHint;
+    static const char* m_flag;
+    static const char* m_widthFlag;
+
+    static bool m_active;
+    static int  m_width;
+};
+
+class VisualizeJumpsHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_label;
+    static const char* m_hint;
+    static const char* m_flag;
+
+    static bool m_active;
+};
+
+class DwarfOptionsHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static void AssignPtrs(ObjdumpConfig& config);
+
+private:
+    static const char* m_label;
+    static const char* m_hint;
+    static const char* m_flag;
+
+    static const char* m_depthLabel;
+    static const char* m_depthHint;
+    static const char* m_depthFlag;
+
+    static const char* m_startLabel;
+    static const char* m_startHint;
+    static const char* m_startFlag;
+
+    static const char* m_checkLabel;
+    static const char* m_checkHint;
+    static const char* m_checkFlag;
+
+    struct Option
+    {
+        const char* label;
+        const char* hint;
+        const char* flag;
+        bool*       active = nullptr;
+
+        Option(const char* l, const char* h, const char* f) : label(l), hint(h), flag(f) {}
+    };
+
+    static std::array<Option, 21> m_options;
+
+    static DwarfDisplayOptions* m_config;
+};
+
+class CtfSectionHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_sectionNameLabel;
+    static const char* m_sectionNameHint;
+    static const char* m_sectionNameFlag;
+
+    static const char* m_sectionParentLabel;
+    static const char* m_sectionParentHint;
+    static const char* m_sectionParentFlag;
+
+    static std::string m_sectionName;
+    static std::string m_sectionParent;
+};
+
+class ShowFullSectionContentHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_label;
+    static const char* m_hint;
+    static const char* m_flag;
+
+    static bool m_active;
+};
+
+class AddressRangeHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_startAddrLabel;
+    static const char* m_startAddrHint;
+    static const char* m_startAddrFlag;
+    static const char* m_stopAddrLabel;
+    static const char* m_stopAddrHint;
+    static const char* m_stopAddrFlag;
+
+    static int m_startAddr;
+    static int m_stopAddr;
+};
+
+class ShowSymbolTableAsSymsHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_symsLabel;
+    static const char* m_symsHint;
+    static const char* m_symsFlag;
+    static const char* m_dynSymsLabel;
+    static const char* m_dynSymsHint;
+    static const char* m_dynSymsFlag;
+    static const char* m_specSymsLabel;
+    static const char* m_specSymsHint;
+    static const char* m_specSymsFlag;
+
+    static bool m_syms;
+    static bool m_dynSyms;
+    static bool m_specSyms;
+};
+
+class ExtraFormatOptionsHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_fmtForWideLabel;
+    static const char* m_fmtForWideHint;
+    static const char* m_fmtForWideFlag;
+
+    static bool m_fmtForWide;
+};
+
+class ShowAllHeadersHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_label;
+    static const char* m_hint;
+    static const char* m_flag;
+
+    static bool m_active;
+};
+
+class DisassembleZerosHandler
+{
+public:
+    static void          Process(ObjdumpConfig& config);
+    static std::ostream& ToString(std::ostream& os);
+
+private:
+    static const char* m_label;
+    static const char* m_hint;
+    static const char* m_flag;
+
+    static bool m_active;
+};
+
 /* Have a wonderful day :) */
 #endif /* _ObjdumpConfigUI */
 /**

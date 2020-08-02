@@ -1,7 +1,7 @@
-﻿/******************************************************************************
- * @file ProjectSettingsLayer
+/******************************************************************************
+ * @file ProjectCreationLayer
  * @author Samuel Martel
- * @date 2020/07/27
+ * @date 2020/08/02
  * @brief
  ******************************************************************************
  * Copyright (C) 2020  Samuel Martel - Pascal-Emmanuel Lachance
@@ -22,37 +22,26 @@
 #pragma once
 
 #include "Brigerad.h"
+#include "utils/File.h"
 
 #include "utils/ObjdumpConfig.h"
-#include "ExplorerLayer.h"
 
-#include <string>
 
-class ProjectSettingsLayer : public Brigerad::Layer
+class ProjectCreationLayer : public Brigerad::Layer
 {
 public:
-    ProjectSettingsLayer();
-    ProjectSettingsLayer(ExplorerLayer* prj, const ObjdumpConfig& config);
-    virtual ~ProjectSettingsLayer() override = default;
+    ProjectCreationLayer() = delete;
+    ProjectCreationLayer(const ObjdumpConfig& config, const std::string& args);
+    virtual ~ProjectCreationLayer() override = default;
 
-    virtual void OnAttach() override;
-    virtual void OnDetach() override;
+    void OnAttach() override;
+    void OnDetach() override;
 
-    void         OnUpdate(Brigerad::Timestep ts) override;
-    virtual void OnImGuiRender() override;
-    void         OnEvent(Brigerad::Event& e) override;
-
-private:
-    std::string MakeObjdumpCmd();
+    void OnUpdate(Brigerad::Timestep ts) override;
+    void OnImGuiRender() override;
+    void OnEvent(Brigerad::Event& e) override;
 
 private:
-    bool          m_isOpen = true;
     ObjdumpConfig m_config;
-
-    ExplorerLayer* m_editingProject = nullptr;
+    std::string   m_args;
 };
-/* Have a wonderful day :) */
-/**
- * @}
- */
-/****** END OF FILE ******/

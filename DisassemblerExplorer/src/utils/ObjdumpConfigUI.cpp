@@ -1522,3 +1522,763 @@ std::ostream& ArcDisassemblerOptionsHandler::ToString(std::ostream& os)
 
     return os;
 }
+
+/************************************************************************/
+/* SECTION: ShowFormatSpecificInfo                                      */
+/************************************************************************/
+const char* ShowFormatSpecificInfoHandler::m_hint      = TEXT_SHOW_FORMAT_SPECIFIC_HINT;
+const char* ShowFormatSpecificInfoHandler::m_paramHint = TEXT_SHOW_FORMAT_SPECIFIC_PARAM_HINT;
+const char* ShowFormatSpecificInfoHandler::m_flag      = TEXT_SHOW_FORMAT_SPECIFIC_FLAG;
+const char* ShowFormatSpecificInfoHandler::m_paramFlag = TEXT_SHOW_FORMAT_SPECIFIC_PARAM_FLAG;
+bool        ShowFormatSpecificInfoHandler::m_active    = false;
+std::string ShowFormatSpecificInfoHandler::m_param     = std::string(128, '\0');
+
+
+void ShowFormatSpecificInfoHandler::Process(ObjdumpConfig& config)
+{
+    constexpr const char* label      = TEXT_SHOW_FORMAT_SPECIFIC_LABEL;
+    constexpr const char* paramLabel = TEXT_SHOW_FORMAT_SPECIFIC_PARAM_LABEL;
+
+    ImGui::Checkbox(label, &config.showFormatSpecificInfo);
+    m_active = config.showFormatSpecificInfo;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+
+    if (m_active)
+    {
+        char*  buf = config.showFormatSpecificInfoParam.data();
+        size_t len = config.showFormatSpecificInfoParam.capacity();
+        if (ImGui::InputText(paramLabel, buf, len))
+        {
+            // Recreate the string using the raw data because we have invalidated the actual string
+            // object.
+            config.showFormatSpecificInfoParam = config.showFormatSpecificInfoParam.c_str();
+        }
+        m_param = config.showFormatSpecificInfoParam;
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_paramHint);
+        }
+    }
+}
+
+std::ostream& ShowFormatSpecificInfoHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+
+    if (m_param.empty() == false && m_param[0] != '\0')
+    {
+        os << " " << m_paramFlag << m_param;
+    }
+
+    return os;
+}
+
+
+/************************************************************************/
+/* SECTION: ShowRelocEntriesHandler                                     */
+/************************************************************************/
+const char* ShowRelocEntriesHandler::m_relocHint        = TEXT_SHOW_RELOC_ENTRIES_HINT;
+const char* ShowRelocEntriesHandler::m_dynamicRelocHint = TEXT_SHOW_DYNAMIC_RELOC_ENTRIES_HINT;
+const char* ShowRelocEntriesHandler::m_relocFlag        = TEXT_SHOW_RELOC_ENTRIES_FLAG;
+const char* ShowRelocEntriesHandler::m_dynamicRelocFlag = TEXT_SHOW_DYNAMIC_RELOC_ENTRIES_FLAG;
+bool        ShowRelocEntriesHandler::m_reloc            = false;
+bool        ShowRelocEntriesHandler::m_dynamicReloc     = false;
+
+void ShowRelocEntriesHandler::Process(ObjdumpConfig& config)
+{
+    constexpr const char* relocLabel        = TEXT_SHOW_RELOC_ENTRIES_LABEL;
+    constexpr const char* dynamicRelocLabel = TEXT_SHOW_DYNAMIC_RELOC_ENTRIES_LABEL;
+
+    ImGui::Checkbox(relocLabel, &config.showRelocEntries);
+    m_reloc = config.showRelocEntries;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_relocHint);
+    }
+
+    ImGui::Checkbox(dynamicRelocLabel, &config.showDynamicRelocEntries);
+    m_dynamicReloc = config.showDynamicRelocEntries;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_dynamicRelocHint);
+    }
+}
+
+std::ostream& ShowRelocEntriesHandler::ToString(std::ostream& os)
+{
+    if (m_reloc)
+    {
+        os << " " << m_relocFlag;
+    }
+    if (m_reloc)
+    {
+        os << " " << m_dynamicRelocFlag;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowAllContentHandler                                       */
+/************************************************************************/
+const char* ShowAllContentHandler::m_hint   = TEXT_SHOW_ALL_CONTENT_HINT;
+const char* ShowAllContentHandler::m_flag   = TEXT_SHOW_ALL_CONTENT_FLAG;
+const char* ShowAllContentHandler::m_label  = TEXT_SHOW_ALL_CONTENT_LABEL;
+bool        ShowAllContentHandler::m_active = false;
+
+void ShowAllContentHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.showAllContent);
+    m_active = config.showAllContent;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& ShowAllContentHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowSourceHandler                                           */
+/************************************************************************/
+const char* ShowSourceHandler::m_showSourceLabel = TEXT_SHOW_SOURCE_LABEL;
+const char* ShowSourceHandler::m_prefixLabel     = TEXT_SHOW_SOURCE_PREFIX_LABEL;
+const char* ShowSourceHandler::m_showSourceHint  = TEXT_SHOW_SOURCE_HINT;
+const char* ShowSourceHandler::m_prefixHint      = TEXT_SHOW_SOURCE_PREFIX_HINT;
+const char* ShowSourceHandler::m_showSourceFlag  = TEXT_SHOW_SOURCE_FLAG;
+const char* ShowSourceHandler::m_prefixFlag      = TEXT_SHOW_SOURCE_PREFIX_FLAG;
+bool        ShowSourceHandler::m_showSource      = false;
+std::string ShowSourceHandler::m_prefix          = std::string(128, '\0');
+
+
+void ShowSourceHandler::Process(ObjdumpConfig& config)
+{
+    if (ImGui::Checkbox(m_showSourceLabel, &config.showSource))
+    {
+        if (config.showSource == true)
+        {
+            config.disassemble = true;
+        }
+    }
+    m_showSource = config.showSource;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_showSourceHint);
+    }
+
+    char*  buf = config.sourcePrefix.data();
+    size_t len = config.sourcePrefix.capacity();
+    if (ImGui::InputText(m_prefixLabel, buf, len))
+    {
+        config.sourcePrefix = buf;
+    }
+    m_prefix = config.sourcePrefix;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_prefixHint);
+    }
+}
+
+std::ostream& ShowSourceHandler::ToString(std::ostream& os)
+{
+    if (m_prefix.empty() == false && m_prefix[0] != '\0')
+    {
+        os << " " << m_prefixFlag << m_prefix;
+    }
+    else if (m_showSource)
+    {
+        // We don't want --source-comment *and* -S at the same time.
+        os << " " << m_showSourceFlag;
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: PathHandler                                                 */
+/************************************************************************/
+const char* PathHandler::m_prefixLabel = TEXT_PATH_PREFIX_LABEL;
+const char* PathHandler::m_stripLabel  = TEXT_PATH_STRIP_LEVEL_LABEL;
+const char* PathHandler::m_prefixHint  = TEXT_PATH_PREFIX_HINT;
+const char* PathHandler::m_stripHint   = TEXT_PATH_STRIP_LEVEL_HINT;
+const char* PathHandler::m_prefixFlag  = TEXT_PATH_PREFIX_FLAG;
+const char* PathHandler::m_stripFlag   = TEXT_PATH_STRIP_LEVEL_FLAG;
+std::string PathHandler::m_prefix      = "";
+int         PathHandler::m_strip       = 0;
+bool        PathHandler::m_showSource  = false;
+
+void PathHandler::Process(ObjdumpConfig& config)
+{
+    char*  buf        = config.pathPrefix.data();
+    size_t len        = config.pathPrefix.capacity();
+    int*   stripLevel = &config.pathStripLevel;
+    int    dummy      = config.pathStripLevel;
+    m_showSource      = config.showSource;
+    if (m_showSource == false)
+    {
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+        ImGui::PushStyleColor(ImGuiCol_FrameBgActive,
+                              ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+        ImGui::PushStyleColor(ImGuiCol_FrameBgHovered,
+                              ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+
+        // Clear len so that user can't input anything in the field.
+        len        = 0;
+        stripLevel = &dummy;
+    }
+
+    if (ImGui::InputText(m_prefixLabel, buf, len))
+    {
+        config.pathPrefix = buf;
+    }
+    m_prefix = config.pathPrefix;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_prefixHint);
+    }
+
+    if (m_prefix.empty() == false)
+    {
+        ImGui::InputInt(m_stripLabel, stripLevel);
+        // Don't allow negative numbers.
+        *stripLevel = std::max(*stripLevel, 0);
+        m_strip     = config.pathStripLevel;
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_stripHint);
+        }
+    }
+
+    if (m_showSource == false)
+    {
+        ImGui::PopStyleColor(3);
+    }
+}
+
+std::ostream& PathHandler::ToString(std::ostream& os)
+{
+    if ((m_prefix.empty() == false && m_prefix[0] != '\0') && m_showSource)
+    {
+        os << " " << m_prefixFlag << m_prefix;
+        if (m_strip != 0)
+        {
+            os << " " << m_stripFlag << m_strip;
+        }
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowRawInstructionHandler                                   */
+/************************************************************************/
+const char* ShowRawInstructionHandler::m_label      = TEXT_SHOW_RAW_INSTRUCTION_LABEL;
+const char* ShowRawInstructionHandler::m_widthLabel = TEXT_SHOW_INSTRUCTION_WIDTH_LABEL;
+const char* ShowRawInstructionHandler::m_hint       = TEXT_SHOW_RAW_INSTRUCTION_HINT;
+const char* ShowRawInstructionHandler::m_widthHint  = TEXT_SHOW_INSTRUCTION_WIDTH_HINT;
+const char* ShowRawInstructionHandler::m_flag       = TEXT_SHOW_RAW_INSTRUCTION_FLAG;
+const char* ShowRawInstructionHandler::m_widthFlag  = TEXT_SHOW_INSTRUCTION_WIDTH_FLAG;
+
+bool ShowRawInstructionHandler::m_active = false;
+int  ShowRawInstructionHandler::m_width  = 0;
+
+void ShowRawInstructionHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.showRawInstruction);
+    m_active = config.showRawInstruction;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+
+    ImGui::InputInt(m_widthLabel, &config.insnWidth);
+    // Don't allow negative numbers.
+    config.insnWidth = std::max(config.insnWidth, 0);
+    m_width          = config.insnWidth;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_widthHint);
+    }
+}
+
+std::ostream& ShowRawInstructionHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+
+    if (m_width != 0)
+    {
+        os << " " << m_widthFlag << m_width;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: VisualizeJumpsHandler                                       */
+/************************************************************************/
+const char* VisualizeJumpsHandler::m_label  = TEXT_VISUALIZE_JUMPS_LABEL;
+const char* VisualizeJumpsHandler::m_hint   = TEXT_VISUALIZE_JUMPS_HINT;
+const char* VisualizeJumpsHandler::m_flag   = TEXT_VISUALIZE_JUMPS_FLAG;
+bool        VisualizeJumpsHandler::m_active = false;
+
+void VisualizeJumpsHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.visualizeJumps);
+    m_active = config.visualizeJumps;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& VisualizeJumpsHandler::ToString(std::ostream& os)
+{
+    os << " " << m_flag;
+    if (m_active == false)
+    {
+        os << "=off";
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: DwarfOptionsHandler                                         */
+/************************************************************************/
+const char* DwarfOptionsHandler::m_label      = TEXT_DWARF_LABEL;
+const char* DwarfOptionsHandler::m_hint       = TEXT_DWARF_HINT;
+const char* DwarfOptionsHandler::m_flag       = TEXT_DWARF_FLAG;
+const char* DwarfOptionsHandler::m_depthLabel = TEXT_DWARF_DEPTH_LABEL;
+const char* DwarfOptionsHandler::m_depthHint  = TEXT_DWARF_DEPTH_HINT;
+const char* DwarfOptionsHandler::m_depthFlag  = TEXT_DWARF_DEPTH_FLAG;
+const char* DwarfOptionsHandler::m_startLabel = TEXT_DWARF_START_LABEL;
+const char* DwarfOptionsHandler::m_startHint  = TEXT_DWARF_START_HINT;
+const char* DwarfOptionsHandler::m_startFlag  = TEXT_DWARF_START_FLAG;
+const char* DwarfOptionsHandler::m_checkLabel = TEXT_DWARF_CHECK_LABEL;
+const char* DwarfOptionsHandler::m_checkHint  = TEXT_DWARF_CHECK_HINT;
+const char* DwarfOptionsHandler::m_checkFlag  = TEXT_DWARF_CHECK_FLAG;
+
+DwarfDisplayOptions*                        DwarfOptionsHandler::m_config  = nullptr;
+std::array<DwarfOptionsHandler::Option, 21> DwarfOptionsHandler::m_options = {
+  Option(TEXT_DWARF_ABBREV_LABEL, TEXT_DWARF_ABBREV_HINT, TEXT_DWARF_ABBREV_FLAG),
+  Option(TEXT_DWARF_ADDR_LABEL, TEXT_DWARF_ADDR_HINT, TEXT_DWARF_ADDR_FLAG),
+  Option(TEXT_DWARF_CU_INDEX_LABEL, TEXT_DWARF_CU_INDEX_HINT, TEXT_DWARF_CU_INDEX_FLAG),
+  Option(TEXT_DWARF_FRAMES_LABEL, TEXT_DWARF_FRAMES_HINT, TEXT_DWARF_FRAMES_FLAG),
+  Option(TEXT_DWARF_FRAME_INTERP_LABEL, TEXT_DWARF_FRAME_INTERP_HINT, TEXT_DWARF_FRAME_INTERP_FLAG),
+  Option(TEXT_DWARF_GDB_INDEX_LABEL, TEXT_DWARF_GDB_INDEX_HINT, TEXT_DWARF_GDB_INDEX_FLAG),
+  Option(TEXT_DWARF_INFO_LABEL, TEXT_DWARF_INFO_HINT, TEXT_DWARF_INFO_FLAG),
+  Option(TEXT_DWARF_LINKS_LABEL, TEXT_DWARF_LINKS_HINT, TEXT_DWARF_LINKS_FLAG),
+  Option(TEXT_DWARF_FOLLOW_LINKS_LABEL, TEXT_DWARF_FOLLOW_LINKS_HINT, TEXT_DWARF_FOLLOW_LINKS_FLAG),
+  Option(TEXT_DWARF_RAW_LINE_LABEL, TEXT_DWARF_RAW_LINE_HINT, TEXT_DWARF_RAW_LINE_FLAG),
+  Option(TEXT_DWARF_DECODED_LINE_LABEL, TEXT_DWARF_DECODED_LINE_HINT, TEXT_DWARF_DECODED_LINE_FLAG),
+  Option(TEXT_DWARF_MACRO_LABEL, TEXT_DWARF_MACRO_HINT, TEXT_DWARF_MACRO_FLAG),
+  Option(TEXT_DWARF_LOC_LABEL, TEXT_DWARF_LOC_HINT, TEXT_DWARF_LOC_FLAG),
+  Option(TEXT_DWARF_PUBNAMES_LABEL, TEXT_DWARF_PUBNAMES_HINT, TEXT_DWARF_PUBNAMES_FLAG),
+  Option(TEXT_DWARF_ARANGES_LABEL, TEXT_DWARF_ARANGES_HINT, TEXT_DWARF_ARANGES_FLAG),
+  Option(TEXT_DWARF_RANGES_LABEL, TEXT_DWARF_RANGES_HINT, TEXT_DWARF_RANGES_FLAG),
+  Option(TEXT_DWARF_STR_LABEL, TEXT_DWARF_STR_HINT, TEXT_DWARF_STR_FLAG),
+  Option(TEXT_DWARF_PUBTYPE_LABEL, TEXT_DWARF_PUBTYPE_HINT, TEXT_DWARF_PUBTYPE_FLAG),
+  Option(
+    TEXT_DWARF_TRACE_ARANGES_LABEL, TEXT_DWARF_TRACE_ARANGES_HINT, TEXT_DWARF_TRACE_ARANGES_FLAG),
+  Option(TEXT_DWARF_TRACE_ABBREV_LABEL, TEXT_DWARF_TRACE_ABBREV_HINT, TEXT_DWARF_TRACE_ABBREV_FLAG),
+  Option(TEXT_DWARF_TRACE_INFO_LABEL, TEXT_DWARF_TRACE_INFO_HINT, TEXT_DWARF_TRACE_INFO_FLAG)};
+
+void DwarfOptionsHandler::Process(ObjdumpConfig& config)
+{
+    m_config = &config.dwarfOptions;
+    AssignPtrs(config);
+
+    //     ImGui::BeginGroup();
+    if (ImGui::TreeNode(m_label))
+    {
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_hint);
+        }
+        for (auto& o : m_options)
+        {
+            ImGui::Checkbox(o.label, o.active);
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::SetTooltip(o.hint);
+            }
+        }
+
+        ImGui::InputInt(m_startLabel, &(m_config->debugInfoDepthStart));
+        m_config->debugInfoDepthStart = std::max(m_config->debugInfoDepthStart, 0);
+        m_config->debugInfoDepthStart =
+          std::min(m_config->debugInfoDepthStart, m_config->debugInfoDepthLimit);
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_startHint);
+        }
+
+        ImGui::InputInt(m_depthLabel, &(m_config->debugInfoDepthLimit));
+        m_config->debugInfoDepthLimit = std::max(m_config->debugInfoDepthLimit, 0);
+        m_config->debugInfoDepthLimit =
+          std::max(m_config->debugInfoDepthLimit, m_config->debugInfoDepthStart);
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_depthHint);
+        }
+
+        ImGui::Checkbox(m_checkLabel, &(m_config->enableAdditionChecks));
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetTooltip(m_checkHint);
+        }
+        ImGui::TreePop();
+    }
+    // We just want to check that is the node isn't open.
+    else if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& DwarfOptionsHandler::ToString(std::ostream& os)
+{
+    bool isAnyActive = false;
+
+    for (const auto& o : m_options)
+    {
+        if (*o.active)
+        {
+            isAnyActive = true;
+            break;
+        }
+    }
+
+    if (isAnyActive)
+    {
+        os << " " << m_flag;
+    }
+
+    for (const auto& o : m_options)
+    {
+        if (*o.active)
+        {
+            os << o.flag;
+        }
+    }
+
+    if (m_config->debugInfoDepthStart != 0)
+    {
+        os << " " << m_startFlag << m_config->debugInfoDepthStart;
+    }
+    if (m_config->debugInfoDepthLimit != 0)
+    {
+        os << " " << m_depthFlag << m_config->debugInfoDepthLimit;
+    }
+    if (m_config->enableAdditionChecks)
+    {
+        os << " " << m_checkFlag;
+    }
+
+    return os;
+}
+
+void DwarfOptionsHandler::AssignPtrs(ObjdumpConfig& config)
+{
+    m_options[0].active  = &config.dwarfOptions.showDebugAbbrev;
+    m_options[1].active  = &config.dwarfOptions.showDebugAddr;
+    m_options[2].active  = &config.dwarfOptions.showDebugCuTuIndex;
+    m_options[3].active  = &config.dwarfOptions.showRawDebugFrame;
+    m_options[4].active  = &config.dwarfOptions.showInterpretedDebugFrame;
+    m_options[5].active  = &config.dwarfOptions.showGdbIndex;
+    m_options[6].active  = &config.dwarfOptions.showDebugInfo;
+    m_options[7].active  = &config.dwarfOptions.showGnuDebugLink;
+    m_options[8].active  = &config.dwarfOptions.followLinks;
+    m_options[9].active  = &config.dwarfOptions.showDebugLine;
+    m_options[10].active = &config.dwarfOptions.showInterpretedDebugLine;
+    m_options[11].active = &config.dwarfOptions.showDebugMacro;
+    m_options[12].active = &config.dwarfOptions.showDebugLoc;
+    m_options[13].active = &config.dwarfOptions.showDebugPubNames;
+    m_options[14].active = &config.dwarfOptions.showDebugAranges;
+    m_options[15].active = &config.dwarfOptions.showDebugRanges;
+    m_options[16].active = &config.dwarfOptions.showDebugStr;
+    m_options[17].active = &config.dwarfOptions.showDebugPubTypes;
+    m_options[18].active = &config.dwarfOptions.showTraceAranges;
+    m_options[19].active = &config.dwarfOptions.showTraceAbbrev;
+    m_options[20].active = &config.dwarfOptions.showTraceInfo;
+}
+
+/************************************************************************/
+/* SECTION: CtfSectionHandler                                           */
+/************************************************************************/
+const char* CtfSectionHandler::m_sectionNameLabel   = TEXT_CTF_SECTION_NAME_LABEL;
+const char* CtfSectionHandler::m_sectionNameHint    = TEXT_CTF_SECTION_NAME_HINT;
+const char* CtfSectionHandler::m_sectionNameFlag    = TEXT_CTF_SECTION_NAME_FLAG;
+const char* CtfSectionHandler::m_sectionParentLabel = TEXT_CTF_PARENT_SECTION_NAME_LABEL;
+const char* CtfSectionHandler::m_sectionParentHint  = TEXT_CTF_PARENT_SECTION_NAME_HINT;
+const char* CtfSectionHandler::m_sectionParentFlag  = TEXT_CTF_PARENT_SECTION_NAME_FLAG;
+std::string CtfSectionHandler::m_sectionName        = "";
+std::string CtfSectionHandler::m_sectionParent      = "";
+
+void CtfSectionHandler::Process(ObjdumpConfig& config)
+{
+    char*  buf = config.ctfSectionName.data();
+    size_t len = config.ctfSectionName.capacity();
+    if (ImGui::InputText(m_sectionNameLabel, buf, len))
+    {
+        config.ctfSectionName = buf;
+    }
+    m_sectionName = config.ctfSectionName;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_sectionNameHint);
+    }
+
+    buf = config.ctfParentSectionName.data();
+    len = config.ctfParentSectionName.capacity();
+    if (ImGui::InputText(m_sectionParentLabel, buf, len))
+    {
+        config.ctfParentSectionName = buf;
+    }
+    m_sectionParent = config.ctfParentSectionName;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_sectionParentHint);
+    }
+}
+
+std::ostream& CtfSectionHandler::ToString(std::ostream& os)
+{
+    if (m_sectionName.empty() == false && m_sectionName[0] != '\0')
+    {
+        os << " " << m_sectionNameFlag << m_sectionName;
+    }
+    if (m_sectionParent.empty() == false && m_sectionParent[0] != '\0')
+    {
+        os << " " << m_sectionParentFlag << m_sectionParent;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowFullSectionContentHandler                               */
+/************************************************************************/
+const char* ShowFullSectionContentHandler::m_label  = TEXT_SHOW_FULL_SECTION_CONTENT_LABEL;
+const char* ShowFullSectionContentHandler::m_hint   = TEXT_SHOW_FULL_SECTION_CONTENT_HINT;
+const char* ShowFullSectionContentHandler::m_flag   = TEXT_SHOW_FULL_SECTION_CONTENT_FLAG;
+bool        ShowFullSectionContentHandler::m_active = false;
+
+void ShowFullSectionContentHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.showFullSectionContent);
+    m_active = config.showFullSectionContent;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& ShowFullSectionContentHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: AddressRangeHandler                                         */
+/************************************************************************/
+const char* AddressRangeHandler::m_startAddrLabel = TEXT_ADDRESS_RANGE_HANDLER_START_LABEL;
+const char* AddressRangeHandler::m_startAddrHint  = TEXT_ADDRESS_RANGE_HANDLER_START_HINT;
+const char* AddressRangeHandler::m_startAddrFlag  = TEXT_ADDRESS_RANGE_HANDLER_START_FLAG;
+const char* AddressRangeHandler::m_stopAddrLabel  = TEXT_ADDRESS_RANGE_HANDLER_STOP_LABEL;
+const char* AddressRangeHandler::m_stopAddrHint   = TEXT_ADDRESS_RANGE_HANDLER_STOP_HINT;
+const char* AddressRangeHandler::m_stopAddrFlag   = TEXT_ADDRESS_RANGE_HANDLER_STOP_FLAG;
+int         AddressRangeHandler::m_startAddr      = 0;
+int         AddressRangeHandler::m_stopAddr       = 0;
+
+void AddressRangeHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::InputInt(
+      m_startAddrLabel, &config.startAddress, 4, 0x100, ImGuiInputTextFlags_CharsHexadecimal);
+    config.startAddress = std::max(config.startAddress, 0);
+    config.startAddress = std::min(config.startAddress, config.stopAddress);
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_startAddrHint);
+    }
+    ImGui::InputInt(
+      m_stopAddrLabel, &config.stopAddress, 4, 0x100, ImGuiInputTextFlags_CharsHexadecimal);
+    config.stopAddress = std::max(config.stopAddress, 0);
+    config.stopAddress = std::max(config.stopAddress, config.startAddress);
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_stopAddrHint);
+    }
+}
+
+std::ostream& AddressRangeHandler::ToString(std::ostream& os)
+{
+    if (m_startAddr != 0)
+    {
+        os << " " << m_startAddrFlag << "0x" << std::hex << m_startAddr;
+    }
+    if (m_stopAddr != 0)
+    {
+        os << " " << m_stopAddrFlag << "0x" << std::hex << m_stopAddr;
+    }
+
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowSymbolTableAsSymsHandler                                */
+/************************************************************************/
+const char* ShowSymbolTableAsSymsHandler::m_symsLabel    = TEXT_SHOW_SYMBOL_TABLE_AS_SYMS_LABEL;
+const char* ShowSymbolTableAsSymsHandler::m_symsHint     = TEXT_SHOW_SYMBOL_TABLE_AS_SYMS_HINT;
+const char* ShowSymbolTableAsSymsHandler::m_symsFlag     = TEXT_SHOW_SYMBOL_TABLE_AS_SYMS_FLAG;
+const char* ShowSymbolTableAsSymsHandler::m_dynSymsLabel = TEXT_SHOW_DYN_SYMBOL_TABLE_AS_SYMS_LABEL;
+const char* ShowSymbolTableAsSymsHandler::m_dynSymsHint  = TEXT_SHOW_DYN_SYMBOL_TABLE_AS_SYMS_HINT;
+const char* ShowSymbolTableAsSymsHandler::m_dynSymsFlag  = TEXT_SHOW_DYN_SYMBOL_TABLE_AS_SYMS_FLAG;
+const char* ShowSymbolTableAsSymsHandler::m_specSymsLabel =
+  TEXT_SHOW_SPE_SYMBOL_TABLE_AS_SYMS_LABEL;
+const char* ShowSymbolTableAsSymsHandler::m_specSymsHint = TEXT_SHOW_SPE_SYMBOL_TABLE_AS_SYMS_HINT;
+const char* ShowSymbolTableAsSymsHandler::m_specSymsFlag = TEXT_SHOW_SPE_SYMBOL_TABLE_AS_SYMS_FLAG;
+bool        ShowSymbolTableAsSymsHandler::m_syms         = false;
+bool        ShowSymbolTableAsSymsHandler::m_dynSyms      = false;
+bool        ShowSymbolTableAsSymsHandler::m_specSyms     = false;
+
+void ShowSymbolTableAsSymsHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_symsLabel, &config.showSymbolTableAsSyms);
+    m_syms = config.showSymbolTableAsSyms;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_symsHint);
+    }
+
+    ImGui::Checkbox(m_dynSymsLabel, &config.showDynamicSymbolTableAsSyms);
+    m_dynSyms = config.showDynamicSymbolTableAsSyms;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_dynSymsHint);
+    }
+
+    ImGui::Checkbox(m_specSymsLabel, &config.includeSpecialSymbols);
+    m_specSyms = config.includeSpecialSymbols;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_specSymsHint);
+    }
+}
+
+std::ostream& ShowSymbolTableAsSymsHandler::ToString(std::ostream& os)
+{
+    if (m_syms)
+    {
+        os << " " << m_symsFlag;
+    }
+    if (m_dynSyms)
+    {
+        os << " " << m_dynSymsFlag;
+    }
+    if (m_specSyms)
+    {
+        os << " " << m_specSymsFlag;
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ExtraFormatOptionsHandler                                   */
+/************************************************************************/
+const char* ExtraFormatOptionsHandler::m_fmtForWideLabel = TEXT_FORMAT_FOR_WIDE_DEVICES_LABEL;
+const char* ExtraFormatOptionsHandler::m_fmtForWideHint  = TEXT_FORMAT_FOR_WIDE_DEVICES_HINT;
+const char* ExtraFormatOptionsHandler::m_fmtForWideFlag  = TEXT_FORMAT_FOR_WIDE_DEVICES_FLAG;
+bool        ExtraFormatOptionsHandler::m_fmtForWide      = false;
+
+void ExtraFormatOptionsHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_fmtForWideLabel, &config.formatForWideDevices);
+    m_fmtForWide = config.formatForWideDevices;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_fmtForWideHint);
+    }
+}
+
+std::ostream& ExtraFormatOptionsHandler::ToString(std::ostream& os)
+{
+    if (m_fmtForWide)
+    {
+        os << " " << m_fmtForWideFlag;
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: ShowAllHeadersHandler                                       */
+/************************************************************************/
+const char* ShowAllHeadersHandler::m_label  = TEXT_SHOW_ALL_HEADERS_LABEL;
+const char* ShowAllHeadersHandler::m_hint   = TEXT_SHOW_ALL_HEADERS_HINT;
+const char* ShowAllHeadersHandler::m_flag   = TEXT_SHOW_ALL_HEADERS_FLAG;
+bool        ShowAllHeadersHandler::m_active = false;
+
+void ShowAllHeadersHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.showAllHeaders);
+    m_active = config.showAllHeaders;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& ShowAllHeadersHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+    return os;
+}
+
+/************************************************************************/
+/* SECTION: DisassembleZerosHandler                                     */
+/************************************************************************/
+const char* DisassembleZerosHandler::m_label  = TEXT_DISASSEMBLE_ZEROS_LABEL;
+const char* DisassembleZerosHandler::m_hint   = TEXT_DISASSEMBLE_ZEROS_HINT;
+const char* DisassembleZerosHandler::m_flag   = TEXT_DISASSEMBLE_ZEROS_FLAG;
+bool        DisassembleZerosHandler::m_active = false;
+
+void DisassembleZerosHandler::Process(ObjdumpConfig& config)
+{
+    ImGui::Checkbox(m_label, &config.disassembleZeroes);
+    m_active = config.disassembleZeroes;
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::SetTooltip(m_hint);
+    }
+}
+
+std::ostream& DisassembleZerosHandler::ToString(std::ostream& os)
+{
+    if (m_active)
+    {
+        os << " " << m_flag;
+    }
+    return os;
+}

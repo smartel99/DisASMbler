@@ -210,29 +210,30 @@ struct DisassemblerOptions
 
 struct DwarfDisplayOptions
 {
-    bool   showDebugAbbrev           = false;
-    bool   showDebugAddr             = false;
-    bool   showDebugCuTuIndex        = false;
-    bool   showRawDebugFrame         = false;
-    bool   showInterpretedDebugFrame = false;
-    bool   showGdbIndex              = false;
-    bool   showDebugInfo             = false;
-    bool   showGnuDebugLink          = false;
-    bool   followLinks               = false;
-    bool   showDebugLine             = false;
-    bool   showInterpretedDebugLine  = false;
-    bool   showDebugMacro            = false;
-    bool   showDebugLoc              = false;
-    bool   showDebugPubNames         = false;
-    bool   showDebugAranges          = false;
-    bool   showDebugStr              = false;
-    bool   showDebugPubTypes         = false;
-    bool   showTraceAranges          = false;
-    bool   showTraceAbbrev           = false;
-    bool   showTraceInfo             = false;
-    size_t debugInfoDepthLimit       = 0;
-    size_t debugInfoDepthStart       = 0;
-    bool   enableAdditionChecks      = false;
+    bool showDebugAbbrev           = false;
+    bool showDebugAddr             = false;
+    bool showDebugCuTuIndex        = false;
+    bool showRawDebugFrame         = false;
+    bool showInterpretedDebugFrame = false;
+    bool showGdbIndex              = false;
+    bool showDebugInfo             = false;
+    bool showGnuDebugLink          = false;
+    bool followLinks               = false;
+    bool showDebugLine             = false;
+    bool showInterpretedDebugLine  = false;
+    bool showDebugMacro            = false;
+    bool showDebugLoc              = false;
+    bool showDebugPubNames         = false;
+    bool showDebugAranges          = false;
+    bool showDebugRanges           = false;
+    bool showDebugStr              = false;
+    bool showDebugPubTypes         = false;
+    bool showTraceAranges          = false;
+    bool showTraceAbbrev           = false;
+    bool showTraceInfo             = false;
+    int  debugInfoDepthLimit       = 0;
+    int  debugInfoDepthStart       = 0;
+    bool enableAdditionChecks      = false;
 };
 
 struct ObjdumpConfig
@@ -265,21 +266,21 @@ struct ObjdumpConfig
     bool                showPrefixedSource          = false;
     std::string         sourcePrefix                = std::string(128, '\0');
     std::string         pathPrefix                  = std::string(128, '\0');
-    size_t              pathStripLevel              = 0;
+    int                 pathStripLevel              = 0;
     bool                showRawInstruction          = true;
+    int                 insnWidth                   = 0;
     bool                visualizeJumps              = false;
     DwarfDisplayOptions dwarfOptions;
     std::string         ctfSectionName               = std::string(128, '\0');
     std::string         ctfParentSectionName         = std::string(128, '\0');
     bool                showFullSectionContent       = false;
-    size_t              startAddress                 = 0;
-    size_t              stopAddress                  = 0;
+    int                 startAddress                 = 0;
+    int                 stopAddress                  = 0;
     bool                showSymbolTableAsSyms        = false;
     bool                showDynamicSymbolTableAsSyms = false;
     bool                includeSpecialSymbols        = false;
-    bool                showVersion                  = false;
-    bool                showAllHeaders               = false;
     bool                formatForWideDevices         = true;
+    bool                showAllHeaders               = false;
     bool                disassembleZeroes            = false;
 };
 
