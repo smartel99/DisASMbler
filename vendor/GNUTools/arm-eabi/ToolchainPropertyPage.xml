@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="ToolchainProperties" DisplayName="ARM Settings" PageTemplate="generic" Description="ARM Settings" SwitchPrefix="-" xmlns="http://schemas.microsoft.com/build/2009/properties">
+	<Rule.Categories>
+		<Category Name="General" DisplayName="General" Description="General"/>
+	</Rule.Categories>
+	<Rule.DataSource>
+		<DataSource Persistence="ProjectFile" ItemType="ToolchainSettingsContainer" Label="" HasConfigurationCondition="true" />
+	</Rule.DataSource>
+
+	<EnumProperty Name="InstructionSet" DisplayName="Instruction Set" Description="" Category="General">
+		<EnumValue Name="ARM" Switch="marm" DisplayName="ARM"/>
+		<EnumValue Name="THUMB" Switch="mthumb" DisplayName="THUMB"/>
+	</EnumProperty>
+	<EnumProperty Name="FloatABI" DisplayName="Floating-point ABI" Description="" Category="General">
+		<EnumValue Name="soft" Switch="mfloat-abi=soft" DisplayName="Software FP"/>
+		<EnumValue Name="hard" Switch="mfloat-abi=hard" DisplayName="Hardware FP"/>
+		<EnumValue Name="softfp" Switch="mfloat-abi=softfp" DisplayName="Software FP using FPU registers"/>
+	</EnumProperty>
+	<EnumProperty Name="ARMFPU" DisplayName="Floating-point unit type" Description="" Category="General">
+		<EnumValue Name="vfp" Switch="mfpu=vfp" DisplayName="vfp"/>
+		<EnumValue Name="vfpv3" Switch="mfpu=vfpv3" DisplayName="vfpv3"/>
+		<EnumValue Name="vfpv3-fp16" Switch="mfpu=vfpv3-fp16" DisplayName="vfpv3-fp16"/>
+		<EnumValue Name="vfpv3-d16" Switch="mfpu=vfpv3-d16" DisplayName="vfpv3-d16"/>
+		<EnumValue Name="vfpv3-d16-fp16" Switch="mfpu=vfpv3-d16-fp16" DisplayName="vfpv3-d16-fp16"/>
+		<EnumValue Name="vfpv3xd" Switch="mfpu=vfpv3xd" DisplayName="vfpv3xd"/>
+		<EnumValue Name="vfpv3xd-fp16" Switch="mfpu=vfpv3xd-fp16" DisplayName="vfpv3xd-fp16"/>
+		<EnumValue Name="neon" Switch="mfpu=neon" DisplayName="neon"/>
+		<EnumValue Name="neon-fp16" Switch="mfpu=neon-fp16" DisplayName="neon-fp16"/>
+		<EnumValue Name="vfpv4" Switch="mfpu=vfpv4" DisplayName="vfpv4"/>
+		<EnumValue Name="vfpv4-d16" Switch="mfpu=vfpv4-d16" DisplayName="vfpv4-d16"/>
+		<EnumValue Name="fpv4-sp-d16" Switch="mfpu=fpv4-sp-d16" DisplayName="fpv4-sp-d16"/>
+		<EnumValue Name="neon-vfpv4" Switch="mfpu=neon-vfpv4" DisplayName="neon-vfpv4"/>
+		<EnumValue Name="fpv5-d16" Switch="mfpu=fpv5-d16" DisplayName="fpv5-d16"/>
+		<EnumValue Name="fpv5-sp-d16" Switch="mfpu=fpv5-sp-d16" DisplayName="fpv5-sp-d16"/>
+		<EnumValue Name="fp-armv8" Switch="mfpu=fp-armv8" DisplayName="fp-armv8"/>
+		<EnumValue Name="neon-fp-armv8" Switch="mfpu=neon-fp-armv8" DisplayName="neon-fp-armv8"/>
+		<EnumValue Name="crypto-neon-fp-armv8" Switch="mfpu=crypto-neon-fp-armv8" DisplayName="crypto-neon-fp-armv8"/>
+	</EnumProperty>
+	<EnumProperty Name="ARMCPU" DisplayName="ARM CPU type" Description="" Category="General">
+		<EnumValue Name="arm7" Switch="mcpu=arm7" DisplayName="arm7"/>
+		<EnumValue Name="arm7m" Switch="mcpu=arm7m" DisplayName="arm7m"/>
+		<EnumValue Name="arm7d" Switch="mcpu=arm7d" DisplayName="arm7d"/>
+		<EnumValue Name="arm7dm" Switch="mcpu=arm7dm" DisplayName="arm7dm"/>
+		<EnumValue Name="arm7di" Switch="mcpu=arm7di" DisplayName="arm7di"/>
+		<EnumValue Name="arm7dmi" Switch="mcpu=arm7dmi" DisplayName="arm7dmi"/>
+		<EnumValue Name="arm70" Switch="mcpu=arm70" DisplayName="arm70"/>
+		<EnumValue Name="arm700" Switch="mcpu=arm700" DisplayName="arm700"/>
+		<EnumValue Name="arm700i" Switch="mcpu=arm700i" DisplayName="arm700i"/>
+		<EnumValue Name="arm710" Switch="mcpu=arm710" DisplayName="arm710"/>
+		<EnumValue Name="arm710c" Switch="mcpu=arm710c" DisplayName="arm710c"/>
+		<EnumValue Name="arm7100" Switch="mcpu=arm7100" DisplayName="arm7100"/>
+		<EnumValue Name="arm720" Switch="mcpu=arm720" DisplayName="arm720"/>
+		<EnumValue Name="arm7500" Switch="mcpu=arm7500" DisplayName="arm7500"/>
+		<EnumValue Name="arm7500fe" Switch="mcpu=arm7500fe" DisplayName="arm7500fe"/>
+		<EnumValue Name="arm7tdmi" Switch="mcpu=arm7tdmi" DisplayName="arm7tdmi"/>
+		<EnumValue Name="arm7tdmi-s" Switch="mcpu=arm7tdmi-s" DisplayName="arm7tdmi-s"/>
+		<EnumValue Name="arm710t" Switch="mcpu=arm710t" DisplayName="arm710t"/>
+		<EnumValue Name="arm720t" Switch="mcpu=arm720t" DisplayName="arm720t"/>
+		<EnumValue Name="arm740t" Switch="mcpu=arm740t" DisplayName="arm740t"/>
+		<EnumValue Name="strongarm" Switch="mcpu=strongarm" DisplayName="strongarm"/>
+		<EnumValue Name="strongarm110" Switch="mcpu=strongarm110" DisplayName="strongarm110"/>
+		<EnumValue Name="strongarm1100" Switch="mcpu=strongarm1100" DisplayName="strongarm1100"/>
+		<EnumValue Name="strongarm1110" Switch="mcpu=strongarm1110" DisplayName="strongarm1110"/>
+		<EnumValue Name="arm8" Switch="mcpu=arm8" DisplayName="arm8"/>
+		<EnumValue Name="arm810" Switch="mcpu=arm810" DisplayName="arm810"/>
+		<EnumValue Name="arm9" Switch="mcpu=arm9" DisplayName="arm9"/>
+		<EnumValue Name="arm9e" Switch="mcpu=arm9e" DisplayName="arm9e"/>
+		<EnumValue Name="arm920" Switch="mcpu=arm920" DisplayName="arm920"/>
+		<EnumValue Name="arm920t" Switch="mcpu=arm920t" DisplayName="arm920t"/>
+		<EnumValue Name="arm922t" Switch="mcpu=arm922t" DisplayName="arm922t"/>
+		<EnumValue Name="arm946e-s" Switch="mcpu=arm946e-s" DisplayName="arm946e-s"/>
+		<EnumValue Name="arm966e-s" Switch="mcpu=arm966e-s" DisplayName="arm966e-s"/>
+		<EnumValue Name="arm968e-s" Switch="mcpu=arm968e-s" DisplayName="arm968e-s"/>
+		<EnumValue Name="arm926ej-s" Switch="mcpu=arm926ej-s" DisplayName="arm926ej-s"/>
+		<EnumValue Name="arm940t" Switch="mcpu=arm940t" DisplayName="arm940t"/>
+		<EnumValue Name="arm9tdmi" Switch="mcpu=arm9tdmi" DisplayName="arm9tdmi"/>
+		<EnumValue Name="arm10tdmi" Switch="mcpu=arm10tdmi" DisplayName="arm10tdmi"/>
+		<EnumValue Name="arm1020t" Switch="mcpu=arm1020t" DisplayName="arm1020t"/>
+		<EnumValue Name="arm1026ej-s" Switch="mcpu=arm1026ej-s" DisplayName="arm1026ej-s"/>
+		<EnumValue Name="arm10e" Switch="mcpu=arm10e" DisplayName="arm10e"/>
+		<EnumValue Name="arm1020e" Switch="mcpu=arm1020e" DisplayName="arm1020e"/>
+		<EnumValue Name="arm1022e" Switch="mcpu=arm1022e" DisplayName="arm1022e"/>
+		<EnumValue Name="arm1136j-s" Switch="mcpu=arm1136j-s" DisplayName="arm1136j-s"/>
+		<EnumValue Name="arm1136jf-s" Switch="mcpu=arm1136jf-s" DisplayName="arm1136jf-s"/>
+		<EnumValue Name="mpcore" Switch="mcpu=mpcore" DisplayName="mpcore"/>
+		<EnumValue Name="mpcorenovfp" Switch="mcpu=mpcorenovfp" DisplayName="mpcorenovfp"/>
+		<EnumValue Name="arm1156t2-s" Switch="mcpu=arm1156t2-s" DisplayName="arm1156t2-s"/>
+		<EnumValue Name="arm1156t2f-s" Switch="mcpu=arm1156t2f-s" DisplayName="arm1156t2f-s"/>
+		<EnumValue Name="arm1176jz-s" Switch="mcpu=arm1176jz-s" DisplayName="arm1176jz-s"/>
+		<EnumValue Name="arm1176jzf-s" Switch="mcpu=arm1176jzf-s" DisplayName="arm1176jzf-s"/>
+		<EnumValue Name="generic-armv7-a" Switch="mcpu=generic-armv7-a" DisplayName="generic-armv7-a"/>
+		<EnumValue Name="cortex-a5" Switch="mcpu=cortex-a5" DisplayName="cortex-a5"/>
+		<EnumValue Name="cortex-a7" Switch="mcpu=cortex-a7" DisplayName="cortex-a7"/>
+		<EnumValue Name="cortex-a8" Switch="mcpu=cortex-a8" DisplayName="cortex-a8"/>
+		<EnumValue Name="cortex-a9" Switch="mcpu=cortex-a9" DisplayName="cortex-a9"/>
+		<EnumValue Name="cortex-a12" Switch="mcpu=cortex-a12" DisplayName="cortex-a12"/>
+		<EnumValue Name="cortex-a15" Switch="mcpu=cortex-a15" DisplayName="cortex-a15"/>
+		<EnumValue Name="cortex-a17" Switch="mcpu=cortex-a17" DisplayName="cortex-a17"/>
+		<EnumValue Name="cortex-a32" Switch="mcpu=cortex-a32" DisplayName="cortex-a32"/>
+		<EnumValue Name="cortex-a35" Switch="mcpu=cortex-a35" DisplayName="cortex-a35"/>
+		<EnumValue Name="cortex-a53" Switch="mcpu=cortex-a53" DisplayName="cortex-a53"/>
+		<EnumValue Name="cortex-a57" Switch="mcpu=cortex-a57" DisplayName="cortex-a57"/>
+		<EnumValue Name="cortex-a72" Switch="mcpu=cortex-a72" DisplayName="cortex-a72"/>
+		<EnumValue Name="cortex-a73" Switch="mcpu=cortex-a73" DisplayName="cortex-a73"/>
+		<EnumValue Name="cortex-r4" Switch="mcpu=cortex-r4" DisplayName="cortex-r4"/>
+		<EnumValue Name="cortex-r4f" Switch="mcpu=cortex-r4f" DisplayName="cortex-r4f"/>
+		<EnumValue Name="cortex-r5" Switch="mcpu=cortex-r5" DisplayName="cortex-r5"/>
+		<EnumValue Name="cortex-r7" Switch="mcpu=cortex-r7" DisplayName="cortex-r7"/>
+		<EnumValue Name="cortex-r8" Switch="mcpu=cortex-r8" DisplayName="cortex-r8"/>
+		<EnumValue Name="cortex-m7" Switch="mcpu=cortex-m7" DisplayName="cortex-m7"/>
+		<EnumValue Name="cortex-m4" Switch="mcpu=cortex-m4" DisplayName="cortex-m4"/>
+		<EnumValue Name="cortex-m3" Switch="mcpu=cortex-m3" DisplayName="cortex-m3"/>
+		<EnumValue Name="cortex-m33" Switch="mcpu=cortex-m33" DisplayName="cortex-m33"/>
+		<EnumValue Name="cortex-m1" Switch="mcpu=cortex-m1" DisplayName="cortex-m1"/>
+		<EnumValue Name="cortex-m0" Switch="mcpu=cortex-m0" DisplayName="cortex-m0"/>
+		<EnumValue Name="cortex-m0plus" Switch="mcpu=cortex-m0plus" DisplayName="cortex-m0plus"/>
+		<EnumValue Name="cortex-m1.small-multiply" Switch="mcpu=cortex-m1.small-multiply" DisplayName="cortex-m1.small-multiply"/>
+		<EnumValue Name="cortex-m0.small-multiply" Switch="mcpu=cortex-m0.small-multiply" DisplayName="cortex-m0.small-multiply"/>
+		<EnumValue Name="cortex-m0plus.small-multiply" Switch="mcpu=cortex-m0plus.small-multiply" DisplayName="cortex-m0plus.small-multiply"/>
+		<EnumValue Name="exynos-m1" Switch="mcpu=exynos-m1" DisplayName="exynos-m1"/>
+		<EnumValue Name="qdf24xx" Switch="mcpu=qdf24xx" DisplayName="qdf24xx"/>
+		<EnumValue Name="marvell-pj4" Switch="mcpu=marvell-pj4" DisplayName="marvell-pj4"/>
+		<EnumValue Name="xscale" Switch="mcpu=xscale" DisplayName="xscale"/>
+		<EnumValue Name="iwmmxt" Switch="mcpu=iwmmxt" DisplayName="iwmmxt"/>
+		<EnumValue Name="iwmmxt2" Switch="mcpu=iwmmxt2" DisplayName="iwmmxt2"/>
+		<EnumValue Name="ep9312" Switch="mcpu=ep9312" DisplayName="ep9312"/>
+		<EnumValue Name="fa526" Switch="mcpu=fa526" DisplayName="fa526"/>
+		<EnumValue Name="fa626" Switch="mcpu=fa626" DisplayName="fa626"/>
+		<EnumValue Name="fa606te" Switch="mcpu=fa606te" DisplayName="fa606te"/>
+		<EnumValue Name="fa626te" Switch="mcpu=fa626te" DisplayName="fa626te"/>
+		<EnumValue Name="fmp626" Switch="mcpu=fmp626" DisplayName="fmp626"/>
+		<EnumValue Name="fa726te" Switch="mcpu=fa726te" DisplayName="fa726te"/>
+		<EnumValue Name="xgene1" Switch="mcpu=xgene1" DisplayName="xgene1"/>
+	</EnumProperty>
+</Rule>

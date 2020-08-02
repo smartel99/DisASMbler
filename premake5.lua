@@ -1,6 +1,6 @@
 workspace "Brigerad"
     architecture "x64"
-    startproject "ARM_DisassemblerExplorer"
+    startproject "DisassemblerExplorer"
 
     configurations
     {
@@ -102,6 +102,15 @@ project "Brigerad"
             "%{prj.name}/src/Platform/Linux/**.cpp",
         }
 
+        disablewarnings
+        {
+            "26812",
+            "26495",
+            "26450",
+            "26444",
+            "26498"
+        }
+
     filter "system:linux"
         systemversion "latest"
 
@@ -196,8 +205,8 @@ project "Brigerad"
         optimize "on"
 
 
-project "ARM_DisassemblerExplorer"
-        location "ARM_DisassemblerExplorer"
+project "DisassemblerExplorer"
+        location "DisassemblerExplorer"
         kind "ConsoleApp"
 
         language "C++"
@@ -246,6 +255,11 @@ project "ARM_DisassemblerExplorer"
             {
                 "%{prj.name}/src/platform/Linux/**.h",
                 "%{prj.name}/src/platform/Linux/**.cpp",
+            }
+
+            disablewarnings
+            {
+                "26812"
             }
     
         filter "system:linux"
