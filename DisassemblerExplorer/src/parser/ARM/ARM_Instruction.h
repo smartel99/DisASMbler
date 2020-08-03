@@ -39,12 +39,22 @@ namespace Parser
 class ARM_Instruction : public Instruction
 {
 public:
-    ARM_Instruction(ARM_InstructionSyntax* syntax, const std::string_view lineOfCode)
+    ARM_Instruction(std::shared_ptr<InstructionSyntax> syntax, const std::string_view lineOfCode)
     : Instruction{syntax, lineOfCode}
     {
     }
+    ARM_Instruction(const std::string_view syntax, const std::string_view lineOfCode)
+    : Instruction{std::make_shared<ARM_InstructionSyntax>(syntax), lineOfCode}
+    {
+    }
 
-    ARM_InstructionSyntax& GetSyntax() { return *dynamic_cast<ARM_InstructionSyntax*>(m_syntax); }
+    std::shared_ptr<ARM_InstructionSyntax> GetSyntax()
+    {
+        return std::dynamic_pointer_cast<ARM_InstructionSyntax, InstructionSyntax>(m_syntax);
+    }
+
+private:
+    [[nodiscard]] const std::string_view GetRawInstructionSyntax() const override = 0;
 };
 
 

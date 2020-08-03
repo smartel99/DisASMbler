@@ -2,12 +2,16 @@
 
 #include <filesystem>
 
+#include "parser/ARM/STR.h"
+
 #if defined(BR_PLATFORM_WINDOWS) || defined(BR_PLATFORM_LINUX)
 
 extern Brigerad::Application* Brigerad::CreateApplication();
 
 int main(int argc, char** argv)
 {
+    ARM::STR strInstruction{"STR R1, [R2, R4]!"};
+
     BR_PROFILE_BEGIN_SESSION("Init", "BrigeradProfile-Startup.json");
     Brigerad::Log::Init();
 

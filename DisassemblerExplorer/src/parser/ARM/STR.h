@@ -1,4 +1,4 @@
-/**************************************************************************************************
+﻿/**************************************************************************************************
  * @addtogroup  ARM
  * {
  * @file        STR
@@ -37,7 +37,6 @@ namespace ARM
 /*************************************************************************************************/
 /* Static variables ---------------------------------------------------------------------------- */
 static constexpr std::string_view c_syntax{"<STR> {cond} {B} {T} {Rd}, <Address>"};
-static Parser::ARM_InstructionSyntax STR_syntax{c_syntax};
 
 
 /*************************************************************************************************/
@@ -45,9 +44,16 @@ static Parser::ARM_InstructionSyntax STR_syntax{c_syntax};
 class STR : public Parser::ARM_Instruction
 {
 public:
-    STR() : Parser::ARM_Instruction{&STR_syntax, ""} {}
-    STR(const std::string_view lineOfCode) : Parser::ARM_Instruction{&STR_syntax, lineOfCode}
+    STR() : Parser::ARM_Instruction{GetRawInstructionSyntax(), ""} {}
+    STR(const std::string_view lineOfCode)
+    : Parser::ARM_Instruction{GetRawInstructionSyntax(), lineOfCode}
     {
+    }
+
+private:
+    [[nodiscard]] const std::string_view GetRawInstructionSyntax() const override
+    {
+        return c_syntax;
     }
 };
 

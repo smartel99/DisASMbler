@@ -33,8 +33,6 @@ namespace Parser
 
 /*************************************************************************************************/
 /* Member functions definitions ---------------------------------------------------------------- */
-Instruction::~Instruction() = default;
-
 void Instruction::CleanLineOfCode()
 {
     m_lineOfCode = StringUtils::RemoveExtraWhitespaces(m_lineOfCode);

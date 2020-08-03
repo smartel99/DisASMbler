@@ -179,11 +179,7 @@ void LoadFont(const char* fontName, const FT_Face& font)
             glyphData[i] = (uint32_t)data.buffer[i];
         }
 
-<<<<<<< HEAD
-        texture->SetData(glyphData, uint32_t(size * sizeof(uint32_t)));
-=======
         texture->SetData(glyphData, (uint32_t)size * sizeof(uint32_t));
->>>>>>> master
         delete[] glyphData;
 
         // Now store character for later use.

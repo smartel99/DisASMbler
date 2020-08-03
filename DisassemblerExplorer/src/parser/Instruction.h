@@ -26,6 +26,8 @@
 /* Includes ------------------------------------------------------------------------------------ */
 #include "parser/InstructionSyntax.h"
 
+#include <memory>
+
 
 namespace Parser
 {
@@ -36,21 +38,21 @@ namespace Parser
 class Instruction
 {
 protected:
-    InstructionSyntax* m_syntax = nullptr;
-    std::string        m_lineOfCode;
+    std::shared_ptr<InstructionSyntax> m_syntax{};
+    std::string                        m_lineOfCode;
 
 public:
-    Instruction(InstructionSyntax* syntax, const std::string_view lineOfCode)
+    Instruction(std::shared_ptr<InstructionSyntax> syntax, const std::string_view lineOfCode)
     : m_lineOfCode{lineOfCode}, m_syntax{syntax}
     {
         CleanLineOfCode();
     }
-    virtual ~Instruction() = 0;
 
     const std::string& GetLineOfCode() { return m_lineOfCode; }
 
 private:
-    void CleanLineOfCode();
+    [[nodiscard]] virtual const std::string_view GetRawInstructionSyntax() const = 0;
+    void                                         CleanLineOfCode();
 };
 
 
