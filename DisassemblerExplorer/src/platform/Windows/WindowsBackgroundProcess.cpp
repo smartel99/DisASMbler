@@ -127,4 +127,6 @@ void BackgroundProcess::Task()
     CloseHandle(outFile);
 
     BR_INFO("Done!");
+
+    m_isRunning = false;
 }

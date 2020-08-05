@@ -25,6 +25,7 @@
 #include "utils/File.h"
 
 #include "utils/ObjdumpConfig.h"
+#include "utils/BackgroundProcess.h"
 
 
 class ProjectCreationLayer : public Brigerad::Layer
@@ -42,6 +43,8 @@ public:
     void OnEvent(Brigerad::Event& e) override;
 
 private:
-    ObjdumpConfig m_config;
-    std::string   m_args;
+    Brigerad::Ref<BackgroundProcess> m_task;
+    ObjdumpConfig                    m_config;
+    std::string                      m_args;
+    char                             m_loadingChar = '/';
 };

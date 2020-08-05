@@ -52,11 +52,13 @@ struct UITextData
       Brigerad::UI::TextAlignment::Left;    // Defaults to left-aligned.
     float FontSize = 14.0f;                 // Defaults to 14x14 pixels.
 
-    FT_Library                                       FontLib     = {};
-    std::map<const char*, std::map<char, Character>> LoadedFonts = {
-      {"arial", {}}, {"arialbd", {}}, {"arialbi", {}}, {"ariali", {}}};
-    std::map<char, Character>* CurrentFont     = &LoadedFonts["arial"];
-    const char*                CurrentFontName = "arial";
+    FT_Library                                       FontLib         = {};
+    std::map<const char*, std::map<char, Character>> LoadedFonts     = {{"arial", {}},
+                                                                    {"arialbd", {}},
+                                                                    {"arialbi", {}},
+                                                                    {"ariali", {}}};
+    std::map<char, Character>*                       CurrentFont     = &LoadedFonts["arial"];
+    const char*                                      CurrentFontName = "arial";
 };
 static UITextData s_uiTextData;
 
@@ -70,11 +72,11 @@ static void LoadFont(const char* fontname, const FT_Face& font);
 
 void InitFont()
 {
-    static const std::map<const char*, std::pair<size_t, const uint32_t*>> arialFonts = {
-      {"arial", {arialDataSize, arialData}},
-      {"arialbd", {arialBbDataSize, arialBbData}},
-      {"arialbi", {arialBiDataSize, arialBiData}},
-      {"ariali", {arialBiDataSize, arialIData}}};
+    static const std::map<const char*, std::pair<size_t, const uint32_t*>> arialFonts =
+      {{"arial", {arialDataSize, arialData}},
+       {"arialbd", {arialBbDataSize, arialBbData}},
+       {"arialbi", {arialBiDataSize, arialBiData}},
+       {"ariali", {arialBiDataSize, arialIData}}};
 
     FT_Face currentFont = {};
 
@@ -179,11 +181,7 @@ void LoadFont(const char* fontName, const FT_Face& font)
             glyphData[i] = (uint32_t)data.buffer[i];
         }
 
-<<<<<<< HEAD
-        texture->SetData(glyphData, uint32_t(size * sizeof(uint32_t)));
-=======
         texture->SetData(glyphData, (uint32_t)size * sizeof(uint32_t));
->>>>>>> master
         delete[] glyphData;
 
         // Now store character for later use.

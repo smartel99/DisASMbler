@@ -134,7 +134,7 @@ std::string ProjectSettingsLayer::MakeObjdumpCmd()
     ShowSourceHandler::ToString(ss);
     PathHandler::ToString(ss);
     ShowRawInstructionHandler::ToString(ss);
-    VisualizeJumpsHandler::ToString(ss);
+    // VisualizeJumpsHandler::ToString(ss);
     DwarfOptionsHandler::ToString(ss);
     CtfSectionHandler::ToString(ss);
     ShowFullSectionContentHandler::ToString(ss);
@@ -143,6 +143,7 @@ std::string ProjectSettingsLayer::MakeObjdumpCmd()
     ExtraFormatOptionsHandler::ToString(ss);
     ShowAllHeadersHandler::ToString(ss);
     DisassembleZerosHandler::ToString(ss);
+    ss << " " << m_config.pathOfBin;
 
     return ss.str();
 }

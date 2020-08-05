@@ -29,6 +29,7 @@
 class BackgroundProcess
 {
 public:
+    BackgroundProcess() = default;
     BackgroundProcess(const std::string& cmd, bool redirectOut = true);
     ~BackgroundProcess();
 

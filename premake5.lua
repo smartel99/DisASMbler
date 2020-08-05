@@ -261,6 +261,8 @@ project "DisassemblerExplorer"
             {
                 "26812"
             }
+            
+            postbuildcommands{"xcopy assets ..\\bin\\" .. outputdir .. "\\%{prj.name}\\assets /E /K /I /Y & xcopy ..\\vendor\\GNUTools ..\\bin\\" .. outputdir .. "\\%{prj.name}\\GNUTools /E /K /I /Y"}
     
         filter "system:linux"
             systemversion "latest"

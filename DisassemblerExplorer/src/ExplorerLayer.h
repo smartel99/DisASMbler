@@ -43,6 +43,7 @@ public:
     void         OnEvent(Brigerad::Event& e) override;
 
 private:
+    std::string   m_name = "";
     ObjdumpConfig m_config;
     std::string   m_content;
     bool          m_open = true;
