@@ -10,7 +10,7 @@ Using Objdump, this tool is designed to help people learn assembly for any archi
 - Syntax higlighting for ARM
     - Given how complex each instruction sets are, each architecture will be implemented one by one, starting with ARM
     - Helpful description of each instruction that explains exactly what's happening
-- Syntax higlighting for other architecture
+- Syntax highlighting for other architecture
 - Live assembly editing
 
 
