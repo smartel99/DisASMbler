@@ -143,7 +143,7 @@ std::string ProjectSettingsLayer::MakeObjdumpCmd()
     ExtraFormatOptionsHandler::ToString(ss);
     ShowAllHeadersHandler::ToString(ss);
     DisassembleZerosHandler::ToString(ss);
-    ss << " " << m_config.pathOfBin;
+    ss << " " << '"'<< m_config.pathOfBin << '"';
 
     return ss.str();
 }
