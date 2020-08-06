@@ -1,44 +1,24 @@
 ﻿#pragma once
-#include <windows.h>      // For common windows data types and function headers
+#include <windows.h>    // For common windows data types and function headers
 #define STRICT_TYPED_ITEMIDS
 #include <shlobj.h>
-#include <objbase.h>      // For COM headers
-#include <shobjidl.h>     // for IFileDialogEvents and IFileDialogControlEvents
+#include <objbase.h>     // For COM headers
+#include <shobjidl.h>    // for IFileDialogEvents and IFileDialogControlEvents
 #include <shlwapi.h>
-#include <knownfolders.h> // for KnownFolder APIs/data types/function headers
-#include <propvarutil.h>  // for PROPVAR-related functions
-#include <propkey.h>      // for the Property key APIs/data types
-#include <propidl.h>      // for the Property System APIs
-#include <strsafe.h>      // for StringCchPrintfW
-#include <shtypes.h>      // for COMDLG_FILTERSPEC
+#include <knownfolders.h>    // for KnownFolder APIs/data types/function headers
+#include <propvarutil.h>     // for PROPVAR-related functions
+#include <propkey.h>         // for the Property key APIs/data types
+#include <propidl.h>         // for the Property System APIs
+#include <strsafe.h>         // for StringCchPrintfW
+#include <shtypes.h>         // for COMDLG_FILTERSPEC
 #include <new>
 
 #include <iostream>
 
-const COMDLG_FILTERSPEC c_rgSaveTypes[] =
-{
-    {L"Script (*.S)", L"*.S"},
-    {L"Executable (*.exe)", L"*.exe"},
-    {L"Log File (*.json)", L"*.json"},
-    {L"Binary File (*.bin)", L"*.bin"},
-    {L"Firmware", L"*.bin;*.hex;*.elf"},
-    {L"Flash Runner Binary File (*.frb)", L"*.frb"},
-    {L"Flash Runner Project File (*.prj", L"*.prj"},
-    {L"All Documents (*.*)", L"*.*"}
-};
+const COMDLG_FILTERSPEC c_rgSaveTypes[] = {{L"All Documents (*.*)", L"*.*"}};
 
 // Indices of file types.
-using FileTypeEnum_t = enum
-{
-    INDEX_SCRIPT = 1,
-    INDEX_EXE,
-    INDEX_LOG,
-    INDEX_BINARY,
-    INDEX_FM,
-    INDEX_FRB,
-    INDEX_PRJ,
-    INDEX_DEFAULT
-};
+using FileTypeEnum_t = enum { INDEX_DEFAULT };
 
 // Controls.
 #define CONTROL_GROUP           2000
@@ -55,27 +35,22 @@ using FileTypeEnum_t = enum
 #define IDC_WRITEPROPERTIESWITHOUTUSINGHANDLERS 105
 
 /* File Dialog Event Handler *************************************************/
-class CDialogEventHandler :
-    public IFileDialogEvents,
-    public IFileDialogControlEvents
+class CDialogEventHandler : public IFileDialogEvents, public IFileDialogControlEvents
 {
 public:
     // IUnknown methods
     IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv)
     {
         static const QITAB qit[] = {
-            QITABENT(CDialogEventHandler, IFileDialogEvents),
-            QITABENT(CDialogEventHandler, IFileDialogControlEvents),
-            { nullptr },
-#pragma warning(suppress:4838)
+          QITABENT(CDialogEventHandler, IFileDialogEvents),
+          QITABENT(CDialogEventHandler, IFileDialogControlEvents),
+          {nullptr},
+#pragma warning(suppress : 4838)
         };
         return QISearch(this, qit, riid, ppv);
     }
 
-    IFACEMETHODIMP_(ULONG) AddRef()
-    {
-        return InterlockedIncrement(&_cRef);
-    }
+    IFACEMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&_cRef); }
 
     IFACEMETHODIMP_(ULONG) Release()
     {
@@ -86,58 +61,30 @@ public:
     }
 
     // IFileDialogEvents methods
-    IFACEMETHODIMP OnFileOk(IFileDialog*)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnFolderChange(IFileDialog*)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnFolderChanging(IFileDialog*, IShellItem*)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnHelp(IFileDialog*)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnSelectionChange(IFileDialog*)
-    {
-        return S_OK;
-    };
-// Disable warning for FDE_SHAREVIOLATION_RESPONSE enum.
-    #pragma warning(suppress:26812)
+    IFACEMETHODIMP OnFileOk(IFileDialog*) { return S_OK; };
+    IFACEMETHODIMP OnFolderChange(IFileDialog*) { return S_OK; };
+    IFACEMETHODIMP OnFolderChanging(IFileDialog*, IShellItem*) { return S_OK; };
+    IFACEMETHODIMP OnHelp(IFileDialog*) { return S_OK; };
+    IFACEMETHODIMP OnSelectionChange(IFileDialog*) { return S_OK; };
+        // Disable warning for FDE_SHAREVIOLATION_RESPONSE enum.
+#pragma warning(suppress : 26812)
     IFACEMETHODIMP OnShareViolation(IFileDialog*, IShellItem*, FDE_SHAREVIOLATION_RESPONSE*)
     {
         return S_OK;
     };
     IFACEMETHODIMP OnTypeChange(IFileDialog* pfd);
-// Disable warning for FDE_OVERWRITE_RESPONSE enum.
-    #pragma warning(suppress:26812)
-    IFACEMETHODIMP OnOverwrite(IFileDialog*, IShellItem*, FDE_OVERWRITE_RESPONSE*)
-    {
-        return S_OK;
-    };
+    // Disable warning for FDE_OVERWRITE_RESPONSE enum.
+#pragma warning(suppress : 26812)
+    IFACEMETHODIMP OnOverwrite(IFileDialog*, IShellItem*, FDE_OVERWRITE_RESPONSE*) { return S_OK; };
 
-// IFileDialogControlEvents methods
+    // IFileDialogControlEvents methods
     IFACEMETHODIMP OnItemSelected(IFileDialogCustomize* pfdc, DWORD dwIDCtl, DWORD dwIDItem);
-    IFACEMETHODIMP OnButtonClicked(IFileDialogCustomize*, DWORD)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL)
-    {
-        return S_OK;
-    };
-    IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD)
-    {
-        return S_OK;
-    };
+    IFACEMETHODIMP OnButtonClicked(IFileDialogCustomize*, DWORD) { return S_OK; };
+    IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize*, DWORD, BOOL) { return S_OK; };
+    IFACEMETHODIMP OnControlActivating(IFileDialogCustomize*, DWORD) { return S_OK; };
 
-    CDialogEventHandler() : _cRef(1)
-    {
-    };
+    CDialogEventHandler() : _cRef(1){};
+
 private:
     virtual ~CDialogEventHandler() = default;
     alignas(long long) long _cRef;

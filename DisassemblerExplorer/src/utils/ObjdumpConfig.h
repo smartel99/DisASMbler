@@ -27,6 +27,7 @@
 #include "utils/File.h"
 
 #include <string>
+#include <vector>
 
 /*****************************************************************************/
 /* Exported defines */
@@ -236,8 +237,13 @@ struct DwarfDisplayOptions
     bool enableAdditionChecks      = false;
 };
 
-struct ObjdumpConfig
+class ObjdumpConfig
 {
+public:
+    std::string Serialize();
+    void        Desirialize(const std::vector<std::string>& ser);
+
+public:
     FileTypes           type                      = FileTypes::All;
     bool                shouldSavePrj             = false;
     std::string         pathOfPrj                 = "";

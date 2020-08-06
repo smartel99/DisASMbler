@@ -67,6 +67,8 @@ std::string BackgroundProcess::GetOutput()
     std::stringstream ss;
     ss << file.rdbuf();
 
+    std::remove(m_fileName.c_str());
+
     return ss.str();
 }
 

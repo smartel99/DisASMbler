@@ -43,10 +43,14 @@ public:
     void         OnEvent(Brigerad::Event& e) override;
 
 private:
-    std::string   m_name = "";
-    ObjdumpConfig m_config;
-    std::string   m_content;
-    bool          m_open = true;
+    void Save();
+
+private:
+    std::string              m_name = "";
+    ObjdumpConfig            m_config;
+    std::vector<std::string> m_content;
+    bool                     m_open  = true;
+    bool                     m_dirty = false;
 };
 
 

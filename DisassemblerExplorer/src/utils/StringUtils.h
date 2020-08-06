@@ -28,6 +28,7 @@
 #include <sstream>
 #include <vector>
 #include <array>
+#include <charconv>
 
 
 /*****************************************************************************/
@@ -97,6 +98,15 @@ public:
         }
     }
 
+    template<class T = int>
+    static T ToVal(const std::string& str)
+    {
+        T var;
+        std::from_chars(str.data(), str.data() + str.size(), var);
+
+        return var;
+    }
+
     static std::string MakeUniqueIdString(const std::string& label, const void* uniqueId)
     {
         return label + "##" + ToString(uniqueId);
@@ -122,6 +132,8 @@ public:
         return outputString;
     }
 };
+
+
 
 /* Have a wonderful day :) */
 #endif /* _StringUtils */

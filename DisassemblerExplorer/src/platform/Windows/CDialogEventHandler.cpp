@@ -14,22 +14,6 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog* pfd)
         if (SUCCEEDED(hr))
         {
             IPropertyDescriptionList* pdl = nullptr;
-
-            switch (uIndex)
-            {
-                case INDEX_SCRIPT:
-                    // When .s is selected, let's ask for some arbitrary property,
-                    // like Title.
-                    hr = PSGetPropertyDescriptionListFromString(L"prop:System.Title",
-                                                                IID_PPV_ARGS(&pdl));
-                    if (SUCCEEDED(hr))
-                    {
-                        // FALSE as second param == do not show default properties.
-                        hr = pfsd->SetCollectedProperties(pdl, FALSE);
-                        pdl->Release();
-                    }
-                    break;
-            }
         }
         pfsd->Release();
     }
@@ -40,9 +24,8 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog* pfd)
  * This method gets called when a dialog control item selection happens
  * (radio-button selection, etc)
  */
-HRESULT CDialogEventHandler::OnItemSelected(IFileDialogCustomize* pfdc,
-                                            DWORD                 dwIDCtl,
-                                            DWORD                 dwIDItem)
+HRESULT
+CDialogEventHandler::OnItemSelected(IFileDialogCustomize* pfdc, DWORD dwIDCtl, DWORD dwIDItem)
 {
     IFileDialog* pfd = nullptr;
     HRESULT      hr  = pfdc->QueryInterface(&pfd);

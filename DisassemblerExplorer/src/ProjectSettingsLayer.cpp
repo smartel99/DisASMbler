@@ -50,16 +50,16 @@ void ProjectSettingsLayer::OnDetach()
 
 void ProjectSettingsLayer::OnUpdate(Brigerad::Timestep ts)
 {
-}
-
-
-void ProjectSettingsLayer::OnImGuiRender()
-{
     if (m_isOpen == false)
     {
         Brigerad::Application::Get().PopLayer(this);
         return;
     }
+}
+
+
+void ProjectSettingsLayer::OnImGuiRender()
+{
     ImGui::Begin(TEXT_NEW_PROJECT_LAYER_WINDOW_NAME, &m_isOpen);
 
     FileTypeHandler::Process(m_config);
