@@ -22,8 +22,14 @@
 
 #include "ApplicationLayer.h"
 
-#include "ImGui/imgui.h"
 #include "ProjectSettingsLayer.h"
+#include "text/Text.h"
+#include "utils/File.h"
+
+#include "ImGui/imgui.h"
+
+#include <string>
+#include <sstream>
 
 ApplicationLayer::ApplicationLayer() : Brigerad::Layer("ARM_DisassemblerExplorer")
 {
@@ -104,6 +110,10 @@ void ApplicationLayer::OnImGuiRender()
             {
                 Brigerad::Application::Get().PushLayer(new ProjectSettingsLayer());
             }
+            if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_OPEN))
+            {
+                LoadProject();
+            }
             if (ImGui::MenuItem(TEXT_APPLICATION_LAYER_EXIT))
             {
                 Brigerad::Application::Get().Close();
@@ -134,5 +144,61 @@ void ApplicationLayer::OnImGuiRender()
 
 void ApplicationLayer::OnEvent(Brigerad::Event& e)
 {
+}
 
-}    // namespace Brigerad
+void ApplicationLayer::LoadProject()
+{
+    std::string filePath = File::OpenFile(FileTypes::All);
+
+    if (filePath.empty())
+    {
+        return;
+    }
+
+    std::ifstream file = std::ifstream(filePath);
+
+    if (file.is_open() == false)
+    {
+        BR_WARN("Unable to open file \"{}\"", filePath);
+        return;
+    }
+
+    std::stringstream ss;
+    ss << file.rdbuf();
+
+    std::string header = "";
+    std::getline(ss, header);
+
+    if (header != "DISASMBLER START")
+    {
+        BR_WARN("Unrecognized file format!");
+        return;
+    }
+
+    // First 103 lines is the objdump configuration of the project.
+    std::vector<std::string> config;
+    config.reserve(103);
+
+    for (int i = 0; i < 103; i++)
+    {
+        std::string line = "";
+        if (!std::getline(ss, line))
+        {
+            break;
+        }
+
+        config.emplace_back(line);
+    }
+
+    std::string content;
+    std::string line;
+    while (std::getline(ss, line, '\0'))
+    {
+        content += line + '\n';
+    }
+
+    ObjdumpConfig objdumpConfig;
+    objdumpConfig.Desirialize(config);
+
+    Brigerad::Application::Get().PushLayer(new ExplorerLayer(objdumpConfig, content));
+}

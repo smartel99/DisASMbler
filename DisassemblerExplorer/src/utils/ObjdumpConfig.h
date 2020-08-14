@@ -19,8 +19,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *****************************************************************************/
-#ifndef _ObjdumpConfig
-#define _ObjdumpConfig
+#pragma once
 
 /*****************************************************************************/
 /* Includes */
@@ -244,7 +243,7 @@ public:
     void        Desirialize(const std::vector<std::string>& ser);
 
 public:
-    FileTypes           type                      = FileTypes::All;
+    FileTypes           fileType                  = FileTypes::All;
     bool                shouldSavePrj             = false;
     std::string         pathOfPrj                 = "";
     std::string         pathOfBin                 = "";
@@ -295,7 +294,6 @@ public:
 
 
 /* Have a wonderful day :) */
-#endif /* _ObjdumpConfig */
 /**
  * @}
  */

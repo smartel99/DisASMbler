@@ -26,7 +26,6 @@
 #include "utils/ObjdumpConfig.h"
 #include "ExplorerLayer.h"
 
-#include <string>
 
 class ProjectSettingsLayer : public Brigerad::Layer
 {

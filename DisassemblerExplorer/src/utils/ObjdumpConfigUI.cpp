@@ -29,15 +29,15 @@
 /*****************************************************************************/
 /* SECTION: FileTypeHandler                                                  */
 /*****************************************************************************/
-const char*                            FileTypeHandler::m_hint  = TEXT_HINT_FILE_TYPE_HANDLER;
-const std::map<FileTypes, const char*> FileTypeHandler::m_types = {
-  {FileTypes::All, TEXT_FILE_TYPE_HANDLER_TYPE_ALL},
-  {FileTypes::Elf, TEXT_FILE_TYPE_HANDLER_TYPE_ELF}};
+const char*                            FileTypeHandler::m_hint = TEXT_HINT_FILE_TYPE_HANDLER;
+const std::map<FileTypes, const char*> FileTypeHandler::m_types =
+  {{FileTypes::All, TEXT_FILE_TYPE_HANDLER_TYPE_ALL},
+   {FileTypes::Elf, TEXT_FILE_TYPE_HANDLER_TYPE_ELF}};
 
 void FileTypeHandler::Process(ObjdumpConfig& config)
 {
     constexpr const char* label   = TEXT_FILE_TYPE_HANDLER_INPUT_LABEL;
-    const char*           preview = m_types.at(config.type);
+    const char*           preview = m_types.at(config.fileType);
 
     ImGui::BeginGroup();
     if (ImGui::BeginCombo(label, preview))
@@ -46,7 +46,7 @@ void FileTypeHandler::Process(ObjdumpConfig& config)
         {
             if (ImGui::Selectable(type.second))
             {
-                config.type = type.first;
+                config.fileType = type.first;
             }
         }
         ImGui::EndCombo();
@@ -66,14 +66,14 @@ const char* ProjectSettingsHandler::m_shouldSaveHint =
 const char* ProjectSettingsHandler::m_prjPathHint = TEXT_PROJECT_SETTINGS_HANDLER_PRJ_PATH_HINT;
 const char* ProjectSettingsHandler::m_architectureHint = TEXT_PROJECT_SETTINGS_HANDLER_ARCH_HINT;
 const char* ProjectSettingsHandler::m_filePathHint = TEXT_PROJECT_SETTINGS_HANDLER_FILE_PATH_HINT;
-const std::map<ArchitectureEnum_t, const char*> ProjectSettingsHandler::m_architectures = {
-  {ArchitectureEnum_t::Architecture_Auto, TEXT_ARCHITECTURE_AUTO},
-  {ArchitectureEnum_t::Architecture_Arm, TEXT_ARCHITECTURE_ARM},
-  {ArchitectureEnum_t::Architecture_Avr, TEXT_ARCHITECTURE_AVR},
-  {ArchitectureEnum_t::Architecture_PowerPc, TEXT_ARCHITECTURE_POWER_PC},
-  {ArchitectureEnum_t::Architecture_RiscV, TEXT_ARCHITECTURE_RISCV},
-  {ArchitectureEnum_t::Architecture_x86, TEXT_ARCHITECTURE_X86},
-  {ArchitectureEnum_t::Architecture_x86_64, TEXT_ARCHITECTURE_X86_64}};
+const std::map<ArchitectureEnum_t, const char*> ProjectSettingsHandler::m_architectures =
+  {{ArchitectureEnum_t::Architecture_Auto, TEXT_ARCHITECTURE_AUTO},
+   {ArchitectureEnum_t::Architecture_Arm, TEXT_ARCHITECTURE_ARM},
+   {ArchitectureEnum_t::Architecture_Avr, TEXT_ARCHITECTURE_AVR},
+   {ArchitectureEnum_t::Architecture_PowerPc, TEXT_ARCHITECTURE_POWER_PC},
+   {ArchitectureEnum_t::Architecture_RiscV, TEXT_ARCHITECTURE_RISCV},
+   {ArchitectureEnum_t::Architecture_x86, TEXT_ARCHITECTURE_X86},
+   {ArchitectureEnum_t::Architecture_x86_64, TEXT_ARCHITECTURE_X86_64}};
 
 void ProjectSettingsHandler::Process(ObjdumpConfig& config)
 {
@@ -191,8 +191,11 @@ int         AdjustVmaOffsetHandler::m_offset      = 0;
 void AdjustVmaOffsetHandler::Process(ObjdumpConfig& config)
 {
     constexpr const char* label = TEXT_ADJUST_VMA_OFFSET_LABEL;
-    ImGui::InputInt(
-      label, &config.adjustVmaOffset, 4, 0x0100, ImGuiInputTextFlags_CharsHexadecimal);
+    ImGui::InputInt(label,
+                    &config.adjustVmaOffset,
+                    4,
+                    0x0100,
+                    ImGuiInputTextFlags_CharsHexadecimal);
     if (ImGui::IsItemHovered())
     {
         ImGui::SetTooltip(m_hint);
@@ -362,14 +365,15 @@ std::ostream& PrefixAddressesHandler::ToString(std::ostream& os)
 /* SECTION: EndiannessHandler                                           */
 /************************************************************************/
 const char*                             EndiannessHandler::m_hint  = TEXT_ENDIANNESS_HINT;
-std::map<EndiannessEnum_t, const char*> EndiannessHandler::m_flags = {
-  {Endianness_Auto, ""},
-  {Endianness_Big, TEXT_ENDIANNESS_FLAG_BIG},
-  {Endianness_Small, TEXT_ENDIANNESS_FLAG_SMALL}};
-std::map<EndiannessEnum_t, const char*> EndiannessHandler::m_labels = {
-  {Endianness_Auto, TEXT_ENDIANNESS_LABELS_AUTO},
-  {Endianness_Big, TEXT_ENDIANNESS_LABELS_BIG},
-  {Endianness_Small, TEXT_ENDIANNESS_LABELS_SMALL}};
+std::map<EndiannessEnum_t, const char*> EndiannessHandler::m_flags = {{Endianness_Auto, ""},
+                                                                      {Endianness_Big,
+                                                                       TEXT_ENDIANNESS_FLAG_BIG},
+                                                                      {Endianness_Small,
+                                                                       TEXT_ENDIANNESS_FLAG_SMALL}};
+std::map<EndiannessEnum_t, const char*> EndiannessHandler::m_labels =
+  {{Endianness_Auto, TEXT_ENDIANNESS_LABELS_AUTO},
+   {Endianness_Big, TEXT_ENDIANNESS_LABELS_BIG},
+   {Endianness_Small, TEXT_ENDIANNESS_LABELS_SMALL}};
 ;
 EndiannessEnum_t EndiannessHandler::m_currentSelection;
 
@@ -519,16 +523,16 @@ std::ostream& ShowInfoFromSectionHandler::ToString(std::ostream& os)
 /************************************************************************/
 const char*        DisassemblerOptionHandler::m_hint = TEXT_DISASSEMBLER_OPTION_HINT;
 ArchitectureEnum_t DisassemblerOptionHandler::m_arch = Architecture_Auto;
-std::map<ArchitectureEnum_t, const char*> DisassemblerOptionHandler::m_archLabels = {
-  {Architecture_Auto, TEXT_ARCHITECTURE_AUTO},
-  {Architecture_Arm, TEXT_ARCHITECTURE_ARM},
-  {Architecture_Avr, TEXT_ARCHITECTURE_AVR},
-  {Architecture_x86, TEXT_ARCHITECTURE_X86},
-  {Architecture_x86_64, TEXT_ARCHITECTURE_X86_64},
-  {Architecture_PowerPc, TEXT_ARCHITECTURE_POWER_PC},
-  {Architecture_RiscV, TEXT_ARCHITECTURE_RISCV},
-  {Architecture_Aarch64, TEXT_ARCHITECTURE_AARCH64},
-  {Architecture_Mips, TEXT_ARCHITECTURE_MIPS}};
+std::map<ArchitectureEnum_t, const char*> DisassemblerOptionHandler::m_archLabels =
+  {{Architecture_Auto, TEXT_ARCHITECTURE_AUTO},
+   {Architecture_Arm, TEXT_ARCHITECTURE_ARM},
+   {Architecture_Avr, TEXT_ARCHITECTURE_AVR},
+   {Architecture_x86, TEXT_ARCHITECTURE_X86},
+   {Architecture_x86_64, TEXT_ARCHITECTURE_X86_64},
+   {Architecture_PowerPc, TEXT_ARCHITECTURE_POWER_PC},
+   {Architecture_RiscV, TEXT_ARCHITECTURE_RISCV},
+   {Architecture_Aarch64, TEXT_ARCHITECTURE_AARCH64},
+   {Architecture_Mips, TEXT_ARCHITECTURE_MIPS}};
 
 
 void DisassemblerOptionHandler::Process(ObjdumpConfig& config)
@@ -633,12 +637,12 @@ std::map<ArmRegisterNameSetEnum_t, const char*> ArmDisassemblerOptionsHandler::m
    {ARM_ApcsSpecialSet, TEXT_ARM_REG_SET_NAME_APCS_SPECIAL_SET},
    {ARM_Raw, TEXT_ARM_REG_SET_NAME_RAW}};
 
-std::map<ArmRegisterNameSetEnum_t, const char*> ArmDisassemblerOptionsHandler::m_regNameSetFlags = {
-  {ARM_Auto, TEXT_ARM_REG_SET_NAME_AUTO_FLAG},
-  {ARM_StdSet, TEXT_ARM_REG_SET_NAME_STD_SET_FLAG},
-  {ARM_ApcsSet, TEXT_ARM_REG_SET_NAME_APCS_SET_FLAG},
-  {ARM_ApcsSpecialSet, TEXT_ARM_REG_SET_NAME_APCS_SPECIAL_SET_FLAG},
-  {ARM_Raw, TEXT_ARM_REG_SET_NAME_RAW_FLAG}};
+std::map<ArmRegisterNameSetEnum_t, const char*> ArmDisassemblerOptionsHandler::m_regNameSetFlags =
+  {{ARM_Auto, TEXT_ARM_REG_SET_NAME_AUTO_FLAG},
+   {ARM_StdSet, TEXT_ARM_REG_SET_NAME_STD_SET_FLAG},
+   {ARM_ApcsSet, TEXT_ARM_REG_SET_NAME_APCS_SET_FLAG},
+   {ARM_ApcsSpecialSet, TEXT_ARM_REG_SET_NAME_APCS_SPECIAL_SET_FLAG},
+   {ARM_Raw, TEXT_ARM_REG_SET_NAME_RAW_FLAG}};
 
 void ArmDisassemblerOptionsHandler::Process(ObjdumpConfig& config)
 {
@@ -647,9 +651,9 @@ void ArmDisassemblerOptionsHandler::Process(ObjdumpConfig& config)
     constexpr const char* cpuIsaLabel     = TEXT_ARM_DISASSEBLER_OPTION_CPU_ISA_LABEL;
 
     ImGui::BeginGroup();
-    if (ImGui::BeginCombo(
-          regNameLabel,
-          m_regNameSetLabels[config.disassemblerOptions.armDisassemblerOptions.armRegisterNameSet]))
+    if (ImGui::BeginCombo(regNameLabel,
+                          m_regNameSetLabels[config.disassemblerOptions.armDisassemblerOptions
+                                               .armRegisterNameSet]))
     {
         for (const auto& l : m_regNameSetLabels)
         {
@@ -714,9 +718,9 @@ void Aarch64DisassemblerOptionsHandler::Process(ObjdumpConfig& config)
 {
     constexpr const char* label = TEXT_AARCH64_DIS_OPTION_DIS_INTO_GENERIC_INST_LABEL;
 
-    ImGui::Checkbox(
-      label,
-      &config.disassemblerOptions.aArch64DisassemblerOptions.disassembleIntoGenericInstruction);
+    ImGui::Checkbox(label,
+                    &config.disassemblerOptions.aArch64DisassemblerOptions
+                       .disassembleIntoGenericInstruction);
 
     m_disassembleIntoGenericInstruction =
       config.disassemblerOptions.aArch64DisassemblerOptions.disassembleIntoGenericInstruction;
@@ -758,46 +762,46 @@ std::map<x86DisassemblyArchitectureEnum_t, const char*>
                                                  {x86Arch_i386, TEXT_X86_ARCH_I386_LABEL},
                                                  {x86Arch_i8086, TEXT_X86_ARCH_I8086_LABEL},
                                                  {x86Arch_x86_64, TEXT_X86_ARCH_X86_64_LABEL}};
-std::map<x86SyntaxModeEnum_t, const char*> x86DisassemblerOptionsHandler::m_syntaxLabels = {
-  {x86Syntax_Auto, TEXT_X86_SYNTAX_AUTOMATIC_LABEL},
-  {x86Syntax_intel, TEXT_X86_SYNTAX_INTEL_LABEL},
-  {x86Syntax_att, TEXT_X86_SYNTAX_ATT_LABEL}};
-std::map<x86IsaEnum_t, const char*> x86DisassemblerOptionsHandler::m_isaLabels {
-  {x86Isa_Auto, TEXT_X86_ISA_AUTOMATIC_LABEL},
-  {x86Isa_amd64, TEXT_X86_ISA_AMD64_LABEL},
-  {x86Isa_intel64, TEXT_X86_ISA_INTEL64_LABEL}};
-std::map<x86AddrSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_addrSizeLabels = {
-  {x86AddrSize_Auto, TEXT_X86_ADDR_SIZE_AUTO_LABEL},
-  {x86AddrSize_64, TEXT_X86_ADDR_SIZE_64_LABEL},
-  {x86AddrSize_32, TEXT_X86_ADDR_SIZE_32_LABEL},
-  {x86AddrSize_16, TEXT_X86_ADDR_SIZE_16_LABEL}};
-std::map<x86DataSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_dataSizeLabels = {
-  {x86DataSize_Auto, TEXT_X86_DATA_SIZE_AUTO_LABEL},
-  {x86DataSize_32, TEXT_X86_DATA_SIZE_32_LABEL},
-  {x86DataSize_16, TEXT_X86_DATA_SIZE_16_LABEL}};
+std::map<x86SyntaxModeEnum_t, const char*> x86DisassemblerOptionsHandler::m_syntaxLabels =
+  {{x86Syntax_Auto, TEXT_X86_SYNTAX_AUTOMATIC_LABEL},
+   {x86Syntax_intel, TEXT_X86_SYNTAX_INTEL_LABEL},
+   {x86Syntax_att, TEXT_X86_SYNTAX_ATT_LABEL}};
+std::map<x86IsaEnum_t, const char*>
+                                         x86DisassemblerOptionsHandler::m_isaLabels{{x86Isa_Auto, TEXT_X86_ISA_AUTOMATIC_LABEL},
+                                             {x86Isa_amd64, TEXT_X86_ISA_AMD64_LABEL},
+                                             {x86Isa_intel64, TEXT_X86_ISA_INTEL64_LABEL}};
+std::map<x86AddrSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_addrSizeLabels =
+  {{x86AddrSize_Auto, TEXT_X86_ADDR_SIZE_AUTO_LABEL},
+   {x86AddrSize_64, TEXT_X86_ADDR_SIZE_64_LABEL},
+   {x86AddrSize_32, TEXT_X86_ADDR_SIZE_32_LABEL},
+   {x86AddrSize_16, TEXT_X86_ADDR_SIZE_16_LABEL}};
+std::map<x86DataSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_dataSizeLabels =
+  {{x86DataSize_Auto, TEXT_X86_DATA_SIZE_AUTO_LABEL},
+   {x86DataSize_32, TEXT_X86_DATA_SIZE_32_LABEL},
+   {x86DataSize_16, TEXT_X86_DATA_SIZE_16_LABEL}};
 
 std::map<x86DisassemblyArchitectureEnum_t, const char*> x86DisassemblerOptionsHandler::m_archFlags =
   {{x86Arch_Auto, TEXT_X86_ARCH_AUTO_FLAG},
    {x86Arch_i386, TEXT_X86_ARCH_I386_FLAG},
    {x86Arch_i8086, TEXT_X86_ARCH_I8086_FLAG},
    {x86Arch_x86_64, TEXT_X86_ARCH_X86_64_FLAG}};
-std::map<x86SyntaxModeEnum_t, const char*> x86DisassemblerOptionsHandler::m_syntaxFlags = {
-  {x86Syntax_Auto, TEXT_X86_SYNTAX_AUTOMATIC_FLAG},
-  {x86Syntax_intel, TEXT_X86_SYNTAX_INTEL_FLAG},
-  {x86Syntax_att, TEXT_X86_SYNTAX_ATT_FLAG}};
-std::map<x86IsaEnum_t, const char*> x86DisassemblerOptionsHandler::m_isaFlags {
-  {x86Isa_Auto, TEXT_X86_ISA_AUTOMATIC_FLAG},
-  {x86Isa_amd64, TEXT_X86_ISA_AMD64_FLAG},
-  {x86Isa_intel64, TEXT_X86_ISA_INTEL64_FLAG}};
-std::map<x86AddrSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_addrSizeFlags = {
-  {x86AddrSize_Auto, TEXT_X86_ADDR_SIZE_AUTO_FLAG},
-  {x86AddrSize_64, TEXT_X86_ADDR_SIZE_64_FLAG},
-  {x86AddrSize_32, TEXT_X86_ADDR_SIZE_32_FLAG},
-  {x86AddrSize_16, TEXT_X86_ADDR_SIZE_16_FLAG}};
-std::map<x86DataSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_dataSizeFlags = {
-  {x86DataSize_Auto, TEXT_X86_DATA_SIZE_AUTO_FLAG},
-  {x86DataSize_32, TEXT_X86_DATA_SIZE_32_FLAG},
-  {x86DataSize_16, TEXT_X86_DATA_SIZE_16_FLAG}};
+std::map<x86SyntaxModeEnum_t, const char*> x86DisassemblerOptionsHandler::m_syntaxFlags =
+  {{x86Syntax_Auto, TEXT_X86_SYNTAX_AUTOMATIC_FLAG},
+   {x86Syntax_intel, TEXT_X86_SYNTAX_INTEL_FLAG},
+   {x86Syntax_att, TEXT_X86_SYNTAX_ATT_FLAG}};
+std::map<x86IsaEnum_t, const char*>
+                                         x86DisassemblerOptionsHandler::m_isaFlags{{x86Isa_Auto, TEXT_X86_ISA_AUTOMATIC_FLAG},
+                                            {x86Isa_amd64, TEXT_X86_ISA_AMD64_FLAG},
+                                            {x86Isa_intel64, TEXT_X86_ISA_INTEL64_FLAG}};
+std::map<x86AddrSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_addrSizeFlags =
+  {{x86AddrSize_Auto, TEXT_X86_ADDR_SIZE_AUTO_FLAG},
+   {x86AddrSize_64, TEXT_X86_ADDR_SIZE_64_FLAG},
+   {x86AddrSize_32, TEXT_X86_ADDR_SIZE_32_FLAG},
+   {x86AddrSize_16, TEXT_X86_ADDR_SIZE_16_FLAG}};
+std::map<x86DataSizeEnum_t, const char*> x86DisassemblerOptionsHandler::m_dataSizeFlags =
+  {{x86DataSize_Auto, TEXT_X86_DATA_SIZE_AUTO_FLAG},
+   {x86DataSize_32, TEXT_X86_DATA_SIZE_32_FLAG},
+   {x86DataSize_16, TEXT_X86_DATA_SIZE_16_FLAG}};
 
 void x86DisassemblerOptionsHandler::Process(ObjdumpConfig& config)
 {
@@ -809,8 +813,9 @@ void x86DisassemblerOptionsHandler::Process(ObjdumpConfig& config)
     constexpr const char* displaySuffixLabel = TEXT_X86_OPTIONS_DISPLAY_SUFFIX_LABEL;
 
     ImGui::BeginGroup();
-    if (ImGui::BeginCombo(
-          archLabel, m_archLabels[config.disassemblerOptions.x86DisassemblerOptions.architecture]))
+    if (ImGui::BeginCombo(archLabel,
+                          m_archLabels[config.disassemblerOptions.x86DisassemblerOptions
+                                         .architecture]))
     {
         for (const auto& l : m_archLabels)
         {
@@ -869,9 +874,9 @@ void x86DisassemblerOptionsHandler::Process(ObjdumpConfig& config)
     }
 
     ImGui::BeginGroup();
-    if (ImGui::BeginCombo(
-          addrSizeLabel,
-          m_addrSizeLabels[config.disassemblerOptions.x86DisassemblerOptions.addrSize]))
+    if (ImGui::BeginCombo(addrSizeLabel,
+                          m_addrSizeLabels[config.disassemblerOptions.x86DisassemblerOptions
+                                             .addrSize]))
     {
         for (const auto& l : m_addrSizeLabels)
         {
@@ -890,9 +895,9 @@ void x86DisassemblerOptionsHandler::Process(ObjdumpConfig& config)
     }
 
     ImGui::BeginGroup();
-    if (ImGui::BeginCombo(
-          dataSizeLabel,
-          m_dataSizeLabels[config.disassemblerOptions.x86DisassemblerOptions.dataSize]))
+    if (ImGui::BeginCombo(dataSizeLabel,
+                          m_dataSizeLabels[config.disassemblerOptions.x86DisassemblerOptions
+                                             .dataSize]))
     {
         for (const auto& l : m_dataSizeLabels)
         {
@@ -990,62 +995,62 @@ bool         PowerPcDisassemberOptionsHandler::m_useHtm       = false;
 bool         PowerPcDisassemberOptionsHandler::m_useVsx       = false;
 bool         PowerPcDisassemberOptionsHandler::m_useSpe       = false;
 
-std::map<PpcCpuEnum_t, const char*> PowerPcDisassemberOptionsHandler::m_cpuIsaLabels = {
-  {PpcCpu_Auto, TEXT_PPC_CPU_LABEL_Auto},
-  {PpcCpu_403, TEXT_PPC_CPU_LABEL_403},
-  {PpcCpu_405, TEXT_PPC_CPU_LABEL_405},
-  {PpcCpu_440, TEXT_PPC_CPU_LABEL_440},
-  {PpcCpu_464, TEXT_PPC_CPU_LABEL_464},
-  {PpcCpu_476, TEXT_PPC_CPU_LABEL_476},
-  {PpcCpu_601, TEXT_PPC_CPU_LABEL_601},
-  {PpcCpu_603, TEXT_PPC_CPU_LABEL_603},
-  {PpcCpu_604, TEXT_PPC_CPU_LABEL_604},
-  {PpcCpu_620, TEXT_PPC_CPU_LABEL_620},
-  {PpcCpu_7400, TEXT_PPC_CPU_LABEL_7400},
-  {PpcCpu_7410, TEXT_PPC_CPU_LABEL_7410},
-  {PpcCpu_7450, TEXT_PPC_CPU_LABEL_7450},
-  {PpcCpu_7455, TEXT_PPC_CPU_LABEL_7455},
-  {PpcCpu_750cl, TEXT_PPC_CPU_LABEL_750cl},
-  {PpcCpu_821, TEXT_PPC_CPU_LABEL_821},
-  {PpcCpu_850, TEXT_PPC_CPU_LABEL_850},
-  {PpcCpu_860, TEXT_PPC_CPU_LABEL_860},
-  {PpcCpu_a2, TEXT_PPC_CPU_LABEL_a2},
-  {PpcCpu_booke, TEXT_PPC_CPU_LABEL_booke},
-  {PpcCpu_booke32, TEXT_PPC_CPU_LABEL_booke32},
-  {PpcCpu_cell, TEXT_PPC_CPU_LABEL_cell},
-  {PpcCpu_com, TEXT_PPC_CPU_LABEL_com},
-  {PpcCpu_e200z4, TEXT_PPC_CPU_LABEL_e200z4},
-  {PpcCpu_e300, TEXT_PPC_CPU_LABEL_e300},
-  {PpcCpu_e500, TEXT_PPC_CPU_LABEL_e500},
-  {PpcCpu_e500mc, TEXT_PPC_CPU_LABEL_e500mc},
-  {PpcCpu_e500mc64, TEXT_PPC_CPU_LABEL_e500mc64},
-  {PpcCpu_e500x2, TEXT_PPC_CPU_LABEL_e500x2},
-  {PpcCpu_e5500, TEXT_PPC_CPU_LABEL_e5500},
-  {PpcCpu_e6500, TEXT_PPC_CPU_LABEL_e6500},
-  {PpcCpu_efs, TEXT_PPC_CPU_LABEL_efs},
-  {PpcCpu_power4, TEXT_PPC_CPU_LABEL_power4},
-  {PpcCpu_power5, TEXT_PPC_CPU_LABEL_power5},
-  {PpcCpu_power6, TEXT_PPC_CPU_LABEL_power6},
-  {PpcCpu_power7, TEXT_PPC_CPU_LABEL_power7},
-  {PpcCpu_power8, TEXT_PPC_CPU_LABEL_power8},
-  {PpcCpu_power9, TEXT_PPC_CPU_LABEL_power9},
-  {PpcCpu_ppc, TEXT_PPC_CPU_LABEL_ppc},
-  {PpcCpu_ppc32, TEXT_PPC_CPU_LABEL_ppc32},
-  {PpcCpu_ppc64, TEXT_PPC_CPU_LABEL_ppc64},
-  {PpcCpu_ppc64bridge, TEXT_PPC_CPU_LABEL_ppc64bridge},
-  {PpcCpu_ppcps, TEXT_PPC_CPU_LABEL_ppcps},
-  {PpcCpu_pwr, TEXT_PPC_CPU_LABEL_pwr},
-  {PpcCpu_pwr2, TEXT_PPC_CPU_LABEL_pwr2},
-  {PpcCpu_pwr4, TEXT_PPC_CPU_LABEL_pwr4},
-  {PpcCpu_pwr5, TEXT_PPC_CPU_LABEL_pwr5},
-  {PpcCpu_pwr5x, TEXT_PPC_CPU_LABEL_pwr5x},
-  {PpcCpu_pwr6, TEXT_PPC_CPU_LABEL_pwr6},
-  {PpcCpu_pwr7, TEXT_PPC_CPU_LABEL_pwr7},
-  {PpcCpu_pwr8, TEXT_PPC_CPU_LABEL_pwr8},
-  {PpcCpu_pwr9, TEXT_PPC_CPU_LABEL_pwr9},
-  {PpcCpu_pwrx, TEXT_PPC_CPU_LABEL_pwrx},
-  {PpcCpu_titan, TEXT_PPC_CPU_LABEL_titan},
-  {PpcCpu_vle, TEXT_PPC_CPU_LABEL_vle}};
+std::map<PpcCpuEnum_t, const char*> PowerPcDisassemberOptionsHandler::m_cpuIsaLabels =
+  {{PpcCpu_Auto, TEXT_PPC_CPU_LABEL_Auto},
+   {PpcCpu_403, TEXT_PPC_CPU_LABEL_403},
+   {PpcCpu_405, TEXT_PPC_CPU_LABEL_405},
+   {PpcCpu_440, TEXT_PPC_CPU_LABEL_440},
+   {PpcCpu_464, TEXT_PPC_CPU_LABEL_464},
+   {PpcCpu_476, TEXT_PPC_CPU_LABEL_476},
+   {PpcCpu_601, TEXT_PPC_CPU_LABEL_601},
+   {PpcCpu_603, TEXT_PPC_CPU_LABEL_603},
+   {PpcCpu_604, TEXT_PPC_CPU_LABEL_604},
+   {PpcCpu_620, TEXT_PPC_CPU_LABEL_620},
+   {PpcCpu_7400, TEXT_PPC_CPU_LABEL_7400},
+   {PpcCpu_7410, TEXT_PPC_CPU_LABEL_7410},
+   {PpcCpu_7450, TEXT_PPC_CPU_LABEL_7450},
+   {PpcCpu_7455, TEXT_PPC_CPU_LABEL_7455},
+   {PpcCpu_750cl, TEXT_PPC_CPU_LABEL_750cl},
+   {PpcCpu_821, TEXT_PPC_CPU_LABEL_821},
+   {PpcCpu_850, TEXT_PPC_CPU_LABEL_850},
+   {PpcCpu_860, TEXT_PPC_CPU_LABEL_860},
+   {PpcCpu_a2, TEXT_PPC_CPU_LABEL_a2},
+   {PpcCpu_booke, TEXT_PPC_CPU_LABEL_booke},
+   {PpcCpu_booke32, TEXT_PPC_CPU_LABEL_booke32},
+   {PpcCpu_cell, TEXT_PPC_CPU_LABEL_cell},
+   {PpcCpu_com, TEXT_PPC_CPU_LABEL_com},
+   {PpcCpu_e200z4, TEXT_PPC_CPU_LABEL_e200z4},
+   {PpcCpu_e300, TEXT_PPC_CPU_LABEL_e300},
+   {PpcCpu_e500, TEXT_PPC_CPU_LABEL_e500},
+   {PpcCpu_e500mc, TEXT_PPC_CPU_LABEL_e500mc},
+   {PpcCpu_e500mc64, TEXT_PPC_CPU_LABEL_e500mc64},
+   {PpcCpu_e500x2, TEXT_PPC_CPU_LABEL_e500x2},
+   {PpcCpu_e5500, TEXT_PPC_CPU_LABEL_e5500},
+   {PpcCpu_e6500, TEXT_PPC_CPU_LABEL_e6500},
+   {PpcCpu_efs, TEXT_PPC_CPU_LABEL_efs},
+   {PpcCpu_power4, TEXT_PPC_CPU_LABEL_power4},
+   {PpcCpu_power5, TEXT_PPC_CPU_LABEL_power5},
+   {PpcCpu_power6, TEXT_PPC_CPU_LABEL_power6},
+   {PpcCpu_power7, TEXT_PPC_CPU_LABEL_power7},
+   {PpcCpu_power8, TEXT_PPC_CPU_LABEL_power8},
+   {PpcCpu_power9, TEXT_PPC_CPU_LABEL_power9},
+   {PpcCpu_ppc, TEXT_PPC_CPU_LABEL_ppc},
+   {PpcCpu_ppc32, TEXT_PPC_CPU_LABEL_ppc32},
+   {PpcCpu_ppc64, TEXT_PPC_CPU_LABEL_ppc64},
+   {PpcCpu_ppc64bridge, TEXT_PPC_CPU_LABEL_ppc64bridge},
+   {PpcCpu_ppcps, TEXT_PPC_CPU_LABEL_ppcps},
+   {PpcCpu_pwr, TEXT_PPC_CPU_LABEL_pwr},
+   {PpcCpu_pwr2, TEXT_PPC_CPU_LABEL_pwr2},
+   {PpcCpu_pwr4, TEXT_PPC_CPU_LABEL_pwr4},
+   {PpcCpu_pwr5, TEXT_PPC_CPU_LABEL_pwr5},
+   {PpcCpu_pwr5x, TEXT_PPC_CPU_LABEL_pwr5x},
+   {PpcCpu_pwr6, TEXT_PPC_CPU_LABEL_pwr6},
+   {PpcCpu_pwr7, TEXT_PPC_CPU_LABEL_pwr7},
+   {PpcCpu_pwr8, TEXT_PPC_CPU_LABEL_pwr8},
+   {PpcCpu_pwr9, TEXT_PPC_CPU_LABEL_pwr9},
+   {PpcCpu_pwrx, TEXT_PPC_CPU_LABEL_pwrx},
+   {PpcCpu_titan, TEXT_PPC_CPU_LABEL_titan},
+   {PpcCpu_vle, TEXT_PPC_CPU_LABEL_vle}};
 
 void PowerPcDisassemberOptionsHandler::Process(ObjdumpConfig& config)
 {
@@ -1066,9 +1071,9 @@ void PowerPcDisassemberOptionsHandler::Process(ObjdumpConfig& config)
     }
 
     ImGui::BeginGroup();
-    if (ImGui::BeginCombo(
-          cpuIsaLabel,
-          m_cpuIsaLabels[config.disassemblerOptions.powerPcDisassemblerOptions.cpuIsa]))
+    if (ImGui::BeginCombo(cpuIsaLabel,
+                          m_cpuIsaLabels[config.disassemblerOptions.powerPcDisassemblerOptions
+                                           .cpuIsa]))
     {
         for (const auto& l : m_cpuIsaLabels)
         {
@@ -1872,30 +1877,39 @@ const char* DwarfOptionsHandler::m_checkLabel = TEXT_DWARF_CHECK_LABEL;
 const char* DwarfOptionsHandler::m_checkHint  = TEXT_DWARF_CHECK_HINT;
 const char* DwarfOptionsHandler::m_checkFlag  = TEXT_DWARF_CHECK_FLAG;
 
-DwarfDisplayOptions*                        DwarfOptionsHandler::m_config  = nullptr;
-std::array<DwarfOptionsHandler::Option, 21> DwarfOptionsHandler::m_options = {
-  Option(TEXT_DWARF_ABBREV_LABEL, TEXT_DWARF_ABBREV_HINT, TEXT_DWARF_ABBREV_FLAG),
-  Option(TEXT_DWARF_ADDR_LABEL, TEXT_DWARF_ADDR_HINT, TEXT_DWARF_ADDR_FLAG),
-  Option(TEXT_DWARF_CU_INDEX_LABEL, TEXT_DWARF_CU_INDEX_HINT, TEXT_DWARF_CU_INDEX_FLAG),
-  Option(TEXT_DWARF_FRAMES_LABEL, TEXT_DWARF_FRAMES_HINT, TEXT_DWARF_FRAMES_FLAG),
-  Option(TEXT_DWARF_FRAME_INTERP_LABEL, TEXT_DWARF_FRAME_INTERP_HINT, TEXT_DWARF_FRAME_INTERP_FLAG),
-  Option(TEXT_DWARF_GDB_INDEX_LABEL, TEXT_DWARF_GDB_INDEX_HINT, TEXT_DWARF_GDB_INDEX_FLAG),
-  Option(TEXT_DWARF_INFO_LABEL, TEXT_DWARF_INFO_HINT, TEXT_DWARF_INFO_FLAG),
-  Option(TEXT_DWARF_LINKS_LABEL, TEXT_DWARF_LINKS_HINT, TEXT_DWARF_LINKS_FLAG),
-  Option(TEXT_DWARF_FOLLOW_LINKS_LABEL, TEXT_DWARF_FOLLOW_LINKS_HINT, TEXT_DWARF_FOLLOW_LINKS_FLAG),
-  Option(TEXT_DWARF_RAW_LINE_LABEL, TEXT_DWARF_RAW_LINE_HINT, TEXT_DWARF_RAW_LINE_FLAG),
-  Option(TEXT_DWARF_DECODED_LINE_LABEL, TEXT_DWARF_DECODED_LINE_HINT, TEXT_DWARF_DECODED_LINE_FLAG),
-  Option(TEXT_DWARF_MACRO_LABEL, TEXT_DWARF_MACRO_HINT, TEXT_DWARF_MACRO_FLAG),
-  Option(TEXT_DWARF_LOC_LABEL, TEXT_DWARF_LOC_HINT, TEXT_DWARF_LOC_FLAG),
-  Option(TEXT_DWARF_PUBNAMES_LABEL, TEXT_DWARF_PUBNAMES_HINT, TEXT_DWARF_PUBNAMES_FLAG),
-  Option(TEXT_DWARF_ARANGES_LABEL, TEXT_DWARF_ARANGES_HINT, TEXT_DWARF_ARANGES_FLAG),
-  Option(TEXT_DWARF_RANGES_LABEL, TEXT_DWARF_RANGES_HINT, TEXT_DWARF_RANGES_FLAG),
-  Option(TEXT_DWARF_STR_LABEL, TEXT_DWARF_STR_HINT, TEXT_DWARF_STR_FLAG),
-  Option(TEXT_DWARF_PUBTYPE_LABEL, TEXT_DWARF_PUBTYPE_HINT, TEXT_DWARF_PUBTYPE_FLAG),
-  Option(
-    TEXT_DWARF_TRACE_ARANGES_LABEL, TEXT_DWARF_TRACE_ARANGES_HINT, TEXT_DWARF_TRACE_ARANGES_FLAG),
-  Option(TEXT_DWARF_TRACE_ABBREV_LABEL, TEXT_DWARF_TRACE_ABBREV_HINT, TEXT_DWARF_TRACE_ABBREV_FLAG),
-  Option(TEXT_DWARF_TRACE_INFO_LABEL, TEXT_DWARF_TRACE_INFO_HINT, TEXT_DWARF_TRACE_INFO_FLAG)};
+DwarfDisplayOptions*                        DwarfOptionsHandler::m_config = nullptr;
+std::array<DwarfOptionsHandler::Option, 21> DwarfOptionsHandler::m_options =
+  {Option(TEXT_DWARF_ABBREV_LABEL, TEXT_DWARF_ABBREV_HINT, TEXT_DWARF_ABBREV_FLAG),
+   Option(TEXT_DWARF_ADDR_LABEL, TEXT_DWARF_ADDR_HINT, TEXT_DWARF_ADDR_FLAG),
+   Option(TEXT_DWARF_CU_INDEX_LABEL, TEXT_DWARF_CU_INDEX_HINT, TEXT_DWARF_CU_INDEX_FLAG),
+   Option(TEXT_DWARF_FRAMES_LABEL, TEXT_DWARF_FRAMES_HINT, TEXT_DWARF_FRAMES_FLAG),
+   Option(TEXT_DWARF_FRAME_INTERP_LABEL,
+          TEXT_DWARF_FRAME_INTERP_HINT,
+          TEXT_DWARF_FRAME_INTERP_FLAG),
+   Option(TEXT_DWARF_GDB_INDEX_LABEL, TEXT_DWARF_GDB_INDEX_HINT, TEXT_DWARF_GDB_INDEX_FLAG),
+   Option(TEXT_DWARF_INFO_LABEL, TEXT_DWARF_INFO_HINT, TEXT_DWARF_INFO_FLAG),
+   Option(TEXT_DWARF_LINKS_LABEL, TEXT_DWARF_LINKS_HINT, TEXT_DWARF_LINKS_FLAG),
+   Option(TEXT_DWARF_FOLLOW_LINKS_LABEL,
+          TEXT_DWARF_FOLLOW_LINKS_HINT,
+          TEXT_DWARF_FOLLOW_LINKS_FLAG),
+   Option(TEXT_DWARF_RAW_LINE_LABEL, TEXT_DWARF_RAW_LINE_HINT, TEXT_DWARF_RAW_LINE_FLAG),
+   Option(TEXT_DWARF_DECODED_LINE_LABEL,
+          TEXT_DWARF_DECODED_LINE_HINT,
+          TEXT_DWARF_DECODED_LINE_FLAG),
+   Option(TEXT_DWARF_MACRO_LABEL, TEXT_DWARF_MACRO_HINT, TEXT_DWARF_MACRO_FLAG),
+   Option(TEXT_DWARF_LOC_LABEL, TEXT_DWARF_LOC_HINT, TEXT_DWARF_LOC_FLAG),
+   Option(TEXT_DWARF_PUBNAMES_LABEL, TEXT_DWARF_PUBNAMES_HINT, TEXT_DWARF_PUBNAMES_FLAG),
+   Option(TEXT_DWARF_ARANGES_LABEL, TEXT_DWARF_ARANGES_HINT, TEXT_DWARF_ARANGES_FLAG),
+   Option(TEXT_DWARF_RANGES_LABEL, TEXT_DWARF_RANGES_HINT, TEXT_DWARF_RANGES_FLAG),
+   Option(TEXT_DWARF_STR_LABEL, TEXT_DWARF_STR_HINT, TEXT_DWARF_STR_FLAG),
+   Option(TEXT_DWARF_PUBTYPE_LABEL, TEXT_DWARF_PUBTYPE_HINT, TEXT_DWARF_PUBTYPE_FLAG),
+   Option(TEXT_DWARF_TRACE_ARANGES_LABEL,
+          TEXT_DWARF_TRACE_ARANGES_HINT,
+          TEXT_DWARF_TRACE_ARANGES_FLAG),
+   Option(TEXT_DWARF_TRACE_ABBREV_LABEL,
+          TEXT_DWARF_TRACE_ABBREV_HINT,
+          TEXT_DWARF_TRACE_ABBREV_FLAG),
+   Option(TEXT_DWARF_TRACE_INFO_LABEL, TEXT_DWARF_TRACE_INFO_HINT, TEXT_DWARF_TRACE_INFO_FLAG)};
 
 void DwarfOptionsHandler::Process(ObjdumpConfig& config)
 {
@@ -2112,16 +2126,22 @@ int         AddressRangeHandler::m_stopAddr       = 0;
 
 void AddressRangeHandler::Process(ObjdumpConfig& config)
 {
-    ImGui::InputInt(
-      m_startAddrLabel, &config.startAddress, 4, 0x100, ImGuiInputTextFlags_CharsHexadecimal);
+    ImGui::InputInt(m_startAddrLabel,
+                    &config.startAddress,
+                    4,
+                    0x100,
+                    ImGuiInputTextFlags_CharsHexadecimal);
     config.startAddress = std::max(config.startAddress, 0);
     config.startAddress = std::min(config.startAddress, config.stopAddress);
     if (ImGui::IsItemHovered())
     {
         ImGui::SetTooltip(m_startAddrHint);
     }
-    ImGui::InputInt(
-      m_stopAddrLabel, &config.stopAddress, 4, 0x100, ImGuiInputTextFlags_CharsHexadecimal);
+    ImGui::InputInt(m_stopAddrLabel,
+                    &config.stopAddress,
+                    4,
+                    0x100,
+                    ImGuiInputTextFlags_CharsHexadecimal);
     config.stopAddress = std::max(config.stopAddress, 0);
     config.stopAddress = std::max(config.stopAddress, config.startAddress);
     if (ImGui::IsItemHovered())

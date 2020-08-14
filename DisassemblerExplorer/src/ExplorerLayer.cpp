@@ -1,7 +1,12 @@
 ﻿#include "ExplorerLayer.h"
 
+#include "text/Text.h"
 
 #include <ImGui/imgui.h>
+
+#include <string>
+#include <sstream>
+#include <fstream>
 
 ExplorerLayer::ExplorerLayer(const ObjdumpConfig& config, const std::string& content)
 : m_config(config)
@@ -73,6 +78,8 @@ void ExplorerLayer::Save()
         BR_ERROR("Unable to open output file \"{}\"", m_config.pathOfPrj.c_str());
         return;
     }
+
+    file << "DISASMBLER START\n";
 
     file << m_config.Serialize();
     for (const auto& line : m_content)

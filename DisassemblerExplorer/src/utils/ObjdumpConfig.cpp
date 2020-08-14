@@ -19,20 +19,18 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *****************************************************************************/
+#include "Brigerad.h"
 
 #include "ObjdumpConfig.h"
 
 #include "utils/StringUtils.h"
-#include "Brigerad.h"
 
-#include <sstream>
 
 std::string ObjdumpConfig::Serialize()
 {
     std::stringstream ss;
 
-    ss << "DISASMBLER_HEADER_START\n";
-    ss << (int)type << "\n";
+    ss << (int)fileType << "\n";
     ss << shouldSavePrj << "\n";
     ss << pathOfPrj << "\n";
     ss << pathOfBin << "\n";
@@ -144,16 +142,15 @@ std::string ObjdumpConfig::Serialize()
     ss << formatForWideDevices << "\n";
     ss << showAllHeaders << "\n";
     ss << disassembleZeroes << "\n";
-    ss << "DISASMBLER_HEADER_END\n";
 
     return ss.str();
 }
 
 void ObjdumpConfig::Desirialize(const std::vector<std::string>& ser)
 {
-    BR_ASSERT(ser.size() == 103, "Bad amount for ObjdumpConfig Desirialization!");
+    BR_ASSERT(ser.size() == 103, "Bad amount of data for ObjdumpConfig De-serialization!");
 
-    type                      = (FileTypes)StringUtils::ToVal(ser[0]);
+    fileType                  = (FileTypes)StringUtils::ToVal(ser[0]);
     shouldSavePrj             = (bool)StringUtils::ToVal(ser[1]);
     pathOfPrj                 = ser[2];
     pathOfBin                 = ser[3];
@@ -273,3 +270,4 @@ void ObjdumpConfig::Desirialize(const std::vector<std::string>& ser)
     formatForWideDevices         = (bool)StringUtils::ToVal(ser[100]);
     showAllHeaders               = (bool)StringUtils::ToVal(ser[101]);
     disassembleZeroes            = (bool)StringUtils::ToVal(ser[102]);
+}

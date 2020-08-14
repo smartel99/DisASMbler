@@ -45,6 +45,7 @@ constexpr const char* TEXT_PROJECT_CREATION_LAYER_TITLE = "Création du projet e
 /************************************************************************/
 constexpr const char* TEXT_APPLICATION_LAYER_FILE  = "Fichier";
 constexpr const char* TEXT_APPLICATION_LAYER_NEW   = "Nouveau";
+constexpr const char* TEXT_APPLICATION_LAYER_OPEN  = "Ouvrir";
 constexpr const char* TEXT_APPLICATION_LAYER_EXIT  = "Quitter";
 constexpr const char* TEXT_APPLICATION_LAYER_HELP  = "Aide";
 constexpr const char* TEXT_APPLICATION_LAYER_ABOUT = "À propos";
@@ -55,6 +56,11 @@ Samuel Martel - Pascal-Emmanuel Lachance
 Ce programme viens avec AUCUNE GUARANTIE.
 Ce programme est gratuit et libre, et vous êtes bienvenue à le
 redistribuer sous les termes de la license GPLv3.)";
+
+/************************************************************************/
+/* SECTION: ExplorerLayer                                               */
+/************************************************************************/
+constexpr const char* TEXT_EXPLORER_LAYER_DEFAULT_PROJECT_NAME = "Nouveau Projet##";
 
 /************************************************************************/
 /* SECTION: ObjdumpConfigUI                                             */
