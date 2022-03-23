@@ -29,6 +29,7 @@
 #include <vector>
 #include <array>
 #include <charconv>
+#include <algorithm>
 
 
 /*****************************************************************************/
